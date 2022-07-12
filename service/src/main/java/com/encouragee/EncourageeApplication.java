@@ -17,10 +17,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.encouragee.controller","com.encouragee.messaging"})
+@ComponentScan(basePackages = {"com.encouragee.controller","com.encouragee.messaging","com.encouragee.camel"})
 public class EncourageeApplication {
     public static void main(String[] args) {
-        SpringApplication.run(EncourageeApplication.class,args);
+        SpringApplication.run(EncourageeApplication.class, args);
     }
 
     @Value("${app.api.path}")
