@@ -8,6 +8,9 @@ GET http://localhost:8081/find
 GET http://localhost:8081/findByCriteria
 
 ###
+GET http://localhost:8983/solr/products/select?indent=true&q=*:*&start=0&rows=20&fq=(id:dimaId+OR+id:dimaId)&fq=(name:dimavalue+OR+name:dimavalue)
+
+###
 GET http://localhost:8081/save/333/333333
 
 ###
