@@ -1,1 +1,21 @@
-http://localhost:8080/entity/all
+###
+GET http://localhost:8081/get
+
+###
+GET http://localhost:8081/find
+
+###
+GET http://localhost:8081/findByCriteria
+
+###
+GET http://localhost:8081/save/333/333333
+
+###
+GET http://localhost:8081/save/337773/333588577333
+
+###
+GET http://localhost:8081/save/dimaId/dimavalue
+
+###
+http://localhost:8081/entity/all
+

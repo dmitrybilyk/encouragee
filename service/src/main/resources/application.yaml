@@ -1,11 +1,11 @@
 server:
-  port: 8080
+  port: 8081
 
 camel:
   springboot:
     name: ServicesRest
 management:
-  port: 8081
+  port: 8082
 endpoints:
   enabled: false
   health:

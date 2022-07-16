@@ -2,6 +2,8 @@ package com.encouragee;
 
 import com.encouragee.messaging.Receiver;
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -15,9 +17,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.encouragee.controller","com.encouragee.messaging","com.encouragee.camel"})
+@EnableSolrRepositories(
+        basePackages = "com.encouragee.repository.solr",
+        namedQueriesLocation = "classpath:solr-named-queries.properties")
 public class EncourageeApplication {
     public static void main(String[] args) {
         SpringApplication.run(EncourageeApplication.class, args);
@@ -63,6 +70,17 @@ public class EncourageeApplication {
     @Bean
     MessageListenerAdapter listenerAdapter(Receiver receiver) {
         return new MessageListenerAdapter(receiver,"receiveMessage");
+    }
+
+    @Bean
+    public SolrClient solrClient() {
+        return new HttpSolrClient.Builder("http://localhost:8983/solr").build();
+//        return new HttpSolrClient.Builder("http://localhost:8983/solr/products").build();
+    }
+
+    @Bean
+    public SolrTemplate solrTemplate(SolrClient client) throws Exception {
+        return new SolrTemplate(client);
     }
 
 }
