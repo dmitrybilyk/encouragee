@@ -90,6 +90,45 @@ public class SolrRestController {
 
         Criteria fulltextCriteria = any();
 
+//        q=*:*&start=0&rows=20&fq=(id:dimaId+OR+name:333588577333)&fq=(name:3335577333+OR+name:3335577333)
+//        SimpleHighlightQuery solrQuery = new SimpleHighlightQuery(fulltextCriteria, pageRequest);
+//
+//        ClientConversationSearch clientConversationSearch = new ClientConversationSearch();
+//        clientConversationSearch.setId("dimaId");
+//        clientConversationSearch.setName("3335577333");
+//
+//        Criteria idCriteria = Optional.ofNullable(clientConversationSearch.getId())
+//                    .filter(StringUtils::hasText)
+//                    .map(id -> where("id").is(id)
+//                            .or(where("name").is("333588577333")))
+//                    .map(Criteria::connect).get();
+//        Criteria nameCriteria = Optional.ofNullable(clientConversationSearch.getName())
+//                    .filter(StringUtils::hasText)
+//                    .map(name -> where("name").is(name)
+//                            .or(where("name").is(name)))
+//                    .map(Criteria::connect).get();
+//
+//        Criteria nameCriteriaOr = Optional.ofNullable(clientConversationSearch.getName())
+//                .filter(StringUtils::hasText)
+//                .map(name -> where("name").is("Desk")
+//                        .or(where("name").is("Desk")))
+//                .map(Criteria::connect).get();
+//
+//        List<Criteria> filterCriterias = Arrays.asList(idCriteria, nameCriteria);
+//        filterCriterias.stream()
+//                .map(SimpleFilterQuery::new)
+//                .forEach(solrQuery::addFilterQuery);
+//
+//        SimpleFilterQuery simpleFilterQuery = new SimpleFilterQuery();
+//        simpleFilterQuery.addCriteria(nameCriteriaOr);
+////        solrQuery.setDefaultOperator(Query.Operator.OR);
+////        solrQuery.addFilterQuery(simpleFilterQuery);
+////        http://localhost:8983/solr/products/select?q=*:*&start=0&rows=20
+////        &fq=(id:dimaId+OR+id:dimaId)
+////        &fq=(name:dimavalue+OR+name:dimavalue)
+////        &fq=(name:Desk+OR+name:Desk)&q.op=OR
+//        Page<Product> results = solrTemplate.queryForPage("products", solrQuery, Product.class);
+
         SimpleHighlightQuery solrQuery = new SimpleHighlightQuery(fulltextCriteria, pageRequest);
 
         ClientConversationSearch clientConversationSearch = new ClientConversationSearch();
@@ -98,30 +137,32 @@ public class SolrRestController {
 
         Criteria idCriteria = Optional.ofNullable(clientConversationSearch.getId())
                     .filter(StringUtils::hasText)
-                    .map(id -> where("id").is(id)
-                            .or(where("id").is(id)))
-                    .map(Criteria::connect).get();
-        Criteria nameCriteria = Optional.ofNullable(clientConversationSearch.getName())
-                    .filter(StringUtils::hasText)
-                    .map(name -> where("name").is(name)
-                            .or(where("name").is(name)))
-                    .map(Criteria::connect).get();
+                    .map(id -> where("id").is("dimaId")
+                            .and(where("name").is("dimavalue")).connect()
+                            .or(where("name").is("Desk")))
+//                    .map(Criteria::connect)
+                .get();
+//        Criteria nameCriteria = Optional.ofNullable(clientConversationSearch.getName())
+//                    .filter(StringUtils::hasText)
+//                    .map(name -> where("name").is(name)
+//                            .or(where("name").is(name)))
+//                    .map(Criteria::connect).get();
+//
+//        Criteria nameCriteriaOr = Optional.ofNullable(clientConversationSearch.getName())
+//                .filter(StringUtils::hasText)
+//                .map(name -> where("name").is("Desk")
+//                        .or(where("name").is("Desk")))
+//                .map(Criteria::connect).get();
 
-        Criteria nameCriteriaOr = Optional.ofNullable(clientConversationSearch.getName())
-                .filter(StringUtils::hasText)
-                .map(name -> where("name").is("Desk")
-                        .or(where("name").is("Desk")))
-                .map(Criteria::connect).get();
-
-        List<Criteria> filterCriterias = Arrays.asList(idCriteria, nameCriteria);
+        List<Criteria> filterCriterias = Arrays.asList(idCriteria);
         filterCriterias.stream()
                 .map(SimpleFilterQuery::new)
                 .forEach(solrQuery::addFilterQuery);
 
         SimpleFilterQuery simpleFilterQuery = new SimpleFilterQuery();
-        simpleFilterQuery.addCriteria(nameCriteriaOr);
-        solrQuery.setDefaultOperator(Query.Operator.OR);
-        solrQuery.addFilterQuery(simpleFilterQuery);
+//        simpleFilterQuery.addCriteria(nameCriteriaOr);
+//        solrQuery.setDefaultOperator(Query.Operator.OR);
+//        solrQuery.addFilterQuery(simpleFilterQuery);
 //        http://localhost:8983/solr/products/select?q=*:*&start=0&rows=20
 //        &fq=(id:dimaId+OR+id:dimaId)
 //        &fq=(name:dimavalue+OR+name:dimavalue)
