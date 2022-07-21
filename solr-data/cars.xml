@@ -1,0 +1,18 @@
+<add>
+<doc>
+ <field name="id">1</field>
+ <field name="make">BMW</field>
+ <field name="model">X5</field>
+ <field name="description">Brand new car</field>
+ <field name="colour">Grey</field>
+ <field name="price">45000</field>
+</doc>
+<doc>
+ <field name="id">2</field>
+ <field name="make">Audi</field>
+ <field name="model">A4</field>
+ <field name="description">Not afraid of the snow</field>
+ <field name="colour">Grey</field>
+ <field name="price">40000</field>
+</doc>
+</add>

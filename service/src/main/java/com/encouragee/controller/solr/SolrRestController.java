@@ -161,7 +161,7 @@ public class SolrRestController {
 
         SimpleFilterQuery simpleFilterQuery = new SimpleFilterQuery();
 //        simpleFilterQuery.addCriteria(nameCriteriaOr);
-//        solrQuery.setDefaultOperator(Query.Operator.OR);
+        solrQuery.setDefaultOperator(Query.Operator.OR);
 //        solrQuery.addFilterQuery(simpleFilterQuery);
 //        http://localhost:8983/solr/products/select?q=*:*&start=0&rows=20
 //        &fq=(id:dimaId+OR+id:dimaId)
