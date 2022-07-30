@@ -1,6 +1,6 @@
 package com.encouragee.controller.solr;
 
-import com.encouragee.model.solr.ClientConversationSearch;
+//import com.encouragee.model.solr.ClientConversationSearch;
 import com.encouragee.model.solr.Product;
 import com.encouragee.repository.solr.ProductRepository;
 import com.google.common.base.Splitter;
@@ -131,17 +131,17 @@ public class SolrRestController {
 
         SimpleHighlightQuery solrQuery = new SimpleHighlightQuery(fulltextCriteria, pageRequest);
 
-        ClientConversationSearch clientConversationSearch = new ClientConversationSearch();
-        clientConversationSearch.setId("dimaId");
-        clientConversationSearch.setName("dimavalue");
+//        ClientConversationSearch clientConversationSearch = new ClientConversationSearch();
+//        clientConversationSearch.setId("dimaId");
+//        clientConversationSearch.setName("dimavalue");
 
-        Criteria idCriteria = Optional.ofNullable(clientConversationSearch.getId())
-                    .filter(StringUtils::hasText)
-                    .map(id -> where("id").is("dimaId")
-                            .and(where("name").is("dimavalue")).connect()
-                            .or(where("name").is("Desk")))
-//                    .map(Criteria::connect)
-                .get();
+//        Criteria idCriteria = Optional.ofNullable(clientConversationSearch.getId())
+//                    .filter(StringUtils::hasText)
+//                    .map(id -> where("id").is("dimaId")
+//                            .and(where("name").is("dimavalue")).connect()
+//                            .or(where("name").is("Desk")))
+////                    .map(Criteria::connect)
+//                .get();
 //        Criteria nameCriteria = Optional.ofNullable(clientConversationSearch.getName())
 //                    .filter(StringUtils::hasText)
 //                    .map(name -> where("name").is(name)
@@ -153,11 +153,11 @@ public class SolrRestController {
 //                .map(name -> where("name").is("Desk")
 //                        .or(where("name").is("Desk")))
 //                .map(Criteria::connect).get();
-
-        List<Criteria> filterCriterias = Arrays.asList(idCriteria);
-        filterCriterias.stream()
-                .map(SimpleFilterQuery::new)
-                .forEach(solrQuery::addFilterQuery);
+//
+//        List<Criteria> filterCriterias = Arrays.asList(idCriteria);
+//        filterCriterias.stream()
+//                .map(SimpleFilterQuery::new)
+//                .forEach(solrQuery::addFilterQuery);
 
         SimpleFilterQuery simpleFilterQuery = new SimpleFilterQuery();
 //        simpleFilterQuery.addCriteria(nameCriteriaOr);
