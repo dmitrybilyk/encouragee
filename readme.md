@@ -17,3 +17,7 @@ Keycloak:
 2. ./kc.sh start-dev
 
 
+
+rabbit
+https://github.com/rabbitmq/rabbitmq-tutorials/tree/master/java
+

@@ -19,5 +19,5 @@ app:
 
 spring:
   rabbitmq:
-    password: "pass"
     username: "user"
+    password: "pass"

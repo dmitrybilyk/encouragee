@@ -83,4 +83,10 @@ public class EncourageeApplication {
         return new SolrTemplate(client);
     }
 
+//    amqp
+    @Bean
+    public Queue myQueue() {
+        return new Queue("myQueue", false);
+    }
+
 }
