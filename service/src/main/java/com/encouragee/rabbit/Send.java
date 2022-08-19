@@ -15,10 +15,11 @@ public class Send {
         factory.setUsername("user");
         factory.setPassword("pass");
         factory.setHost("localhost");
+        factory.setPort(5673);
         try (Connection connection = factory.newConnection();
              Channel channel = connection.createChannel()) {
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-            String message = "Hello World2222222222778!";
+            String message = "Hello World2222222222778899!";
             channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
             System.out.println(" [x] Sent '" + message + "'");
         }

@@ -14,6 +14,7 @@ public class Recv {
     factory.setUsername("user");
     factory.setPassword("pass");
     factory.setHost("localhost");
+    factory.setPort(5673);
     Connection connection = factory.newConnection();
     Channel channel = connection.createChannel();
 
