@@ -203,17 +203,17 @@ public Declarables fanoutBindings() {
         System.out.println("Conversation is " + conversation.toString());
     }
 
-    @Bean
-    public RabbitTemplate myRabbitTemplate(final ConnectionFactory connectionFactory) {
-        final var rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
-        return rabbitTemplate;
-    }
-
-    @Bean
-    public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
-        return new Jackson2JsonMessageConverter();
-    }
+//    @Bean
+//    public RabbitTemplate myRabbitTemplate(final ConnectionFactory connectionFactory) {
+//        final var rabbitTemplate = new RabbitTemplate(connectionFactory);
+//        rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
+//        return rabbitTemplate;
+//    }
+//
+//    @Bean
+//    public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
+//        return new Jackson2JsonMessageConverter();
+//    }
 
 //    ____________________________________________________________________________________________________________________
 
