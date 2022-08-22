@@ -1,14 +1,17 @@
 package com.encouragee;
 
 import com.encouragee.messaging.Receiver;
+import com.encouragee.rabbit.model.Conversation;
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,6 +31,8 @@ import static org.springframework.amqp.core.BindingBuilder.bind;
         namedQueriesLocation = "classpath:solr-named-queries.properties")
 public class EncourageeApplication {
     private static final boolean NON_DURABLE = false;
+
+    public final static String QUEUE_FOR_CONVERSATION = "queue-for-conversation";
 
     public final static String FANOUT_QUEUE_1_NAME = "com.baeldung.spring-amqp-simple.fanout.queue1";
     public final static String FANOUT_QUEUE_2_NAME = "com.baeldung.spring-amqp-simple.fanout.queue2";
@@ -49,6 +54,7 @@ public class EncourageeApplication {
     String contextPath;
     public static final String queueName = "spring-boot";
     public static final String topicExchangeName = "spring-boot-exchange";
+    public static final String topicConversationExchange = "conversation-exchange";
 
     @RabbitListener(queues = queueName)
     public void listen(String in) {
@@ -104,9 +110,26 @@ public class EncourageeApplication {
     }
 
 //    amqp
+
     @Bean
     public Queue myQueue() {
         return new Queue("myQueue", false);
+    }
+
+    @Bean
+    TopicExchange conversationExchange() {
+        return new TopicExchange(topicConversationExchange);
+    }
+
+    //    amqp
+    @Bean
+    public Queue myQueueForConversation() {
+        return new Queue(QUEUE_FOR_CONVERSATION, false);
+    }
+
+    @Bean
+    Binding conversationBinding(Queue myQueueForConversation, TopicExchange conversationExchange){
+        return bind(myQueueForConversation).to(conversationExchange).with("conversation-routing-key");
     }
 
 
@@ -173,6 +196,23 @@ public Declarables fanoutBindings() {
     @RabbitListener(queues = { TOPIC_QUEUE_3_NAME })
     public void receiveMessageFromTopic3(String message) {
         System.out.println("Received topic 3 (" + BINDING_PATTERN_IMPORTANT + ") message: " + message);
+    }
+
+    @RabbitListener(queues = { QUEUE_FOR_CONVERSATION })
+    public void receiveMessageConversation(Conversation conversation) {
+        System.out.println("Conversation is " + conversation.toString());
+    }
+
+    @Bean
+    public RabbitTemplate myRabbitTemplate(final ConnectionFactory connectionFactory) {
+        final var rabbitTemplate = new RabbitTemplate(connectionFactory);
+        rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
+        return rabbitTemplate;
+    }
+
+    @Bean
+    public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
+        return new Jackson2JsonMessageConverter();
     }
 
 //    ____________________________________________________________________________________________________________________

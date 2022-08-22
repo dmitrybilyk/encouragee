@@ -1,5 +1,6 @@
 package com.encouragee.rabbit;
 
+import com.encouragee.rabbit.model.Conversation;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
