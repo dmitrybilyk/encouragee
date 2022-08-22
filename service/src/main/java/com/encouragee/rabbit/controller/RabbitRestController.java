@@ -6,10 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.encouragee.EncourageeApplication.queueName;
+import static com.encouragee.EncourageeApplication.*;
 
 @RestController("/rabbit")
 public class RabbitRestController {
+
+    private static String ROUTING_KEY_USER_IMPORTANT_WARN = "user.important.warn";
+    private static String ROUTING_KEY_USER_IMPORTANT_ERROR = "user.important.error";
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -19,5 +22,17 @@ public class RabbitRestController {
         rabbitTemplate.convertAndSend(queueName, value);
         return "message sent";
     }
+
+    @GetMapping("/sendFanout")
+    public String sendFanout() {
+        String message = " payload is broadcast";
+        rabbitTemplate.convertAndSend(FANOUT_EXCHANGE_NAME, "", "fanout" + message);
+        rabbitTemplate.convertAndSend(TOPIC_EXCHANGE_NAME, ROUTING_KEY_USER_IMPORTANT_WARN, "topic important warn" + message);
+        rabbitTemplate.convertAndSend(TOPIC_EXCHANGE_NAME, ROUTING_KEY_USER_IMPORTANT_ERROR, "topic important error" + message);
+        rabbitTemplate.convertAndSend(TOPIC_EXCHANGE_NAME, ROUTING_KEY_USER_IMPORTANT_ERROR, message + "topic important error");
+        return "fanout sent";
+    }
+
+
 
 }
