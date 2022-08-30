@@ -15,11 +15,11 @@ public class SendMessageTest {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Test
-    void test() throws InterruptedException {
-        for (int i=0;i<1000;i++) {
-            rabbitTemplate.convertAndSend(EncourageeApplication.topicExchangeName, "com.encouragee.messaging.test", "Hello World! "+i);
-        }
-        Thread.sleep(100);
-    }
+//    @Test
+//    void test() throws InterruptedException {
+//        for (int i=0;i<1000;i++) {
+//            rabbitTemplate.convertAndSend(EncourageeApplication.topicExchangeName, "com.encouragee.messaging.test", "Hello World! "+i);
+//        }
+//        Thread.sleep(100);
+//    }
 }

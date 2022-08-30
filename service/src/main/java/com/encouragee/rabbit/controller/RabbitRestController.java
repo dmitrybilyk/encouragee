@@ -1,6 +1,7 @@
 package com.encouragee.rabbit.controller;
 
 import com.encouragee.rabbit.model.Conversation;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.encouragee.EncourageeApplication.*;
+import static com.encouragee.RabbitMQConfiguration.queueNameForDirectExchange;
 
 @RestController("/rabbit")
 public class RabbitRestController {
@@ -21,7 +23,7 @@ public class RabbitRestController {
 
     @GetMapping("/send/{value}")
     public String saveProduct(@PathVariable String value) {
-        rabbitTemplate.convertAndSend(queueName, value);
+        rabbitTemplate.send(queueNameForDirectExchange, new Message(value.getBytes()));
         return "message sent";
     }
 
@@ -35,14 +37,14 @@ public class RabbitRestController {
         return "fanout sent";
     }
 
-    @GetMapping("/sendConversation")
-    public String sendConversation() {
-        Conversation conversation = new Conversation();
-        conversation.setName("my conversation");
-        rabbitTemplate.convertAndSend(topicConversationExchange, "conversation-routing-key",
-                conversation);
-        return "conversation sent";
-    }
+//    @GetMapping("/sendConversation")
+//    public String sendConversation() {
+//        Conversation conversation = new Conversation();
+//        conversation.setName("my conversation");
+//        rabbitTemplate.convertAndSend(topicConversationExchange, "conversation-routing-key",
+//                conversation);
+//        return "conversation sent";
+//    }
 
 
 
