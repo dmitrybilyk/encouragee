@@ -16,8 +16,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 
-import static org.springframework.amqp.core.BindingBuilder.bind;
-
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.encouragee.controller", "com.encouragee.messaging", "com.encouragee.camel",
         "com.encouragee.rabbit.controller", "com.encouragee"})

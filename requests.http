@@ -1,3 +1,12 @@
+#- direct
+
+###
+GET http://localhost:8081/send/direct/myValue
+
+###
+GET http://localhost:8081/sendToTopicExchange
+
+
 ###
 GET http://localhost:8081/get
 
