@@ -4,10 +4,7 @@ import com.encouragee.messaging.Receiver;
 import com.encouragee.rabbit.SimpleMessage;
 import com.encouragee.rabbit.model.Conversation;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -27,11 +24,14 @@ public class RabbitMQConfiguration {
     public static final String queueNameForDirectExchange = "queue.for.direct.exchange";
     public static final String topicExchangeName = "topic-exchange";
     public static final String fanoutExchangeName = "fanout-exchange";
+    public static final String headersExchangeName = "headers-exchange";
     public static final String COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_1 = "com.encouragee.messaging.queueTopic1";
     public static final String COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_2 = "com.encouragee.messaging.queueTopic2";
     public static final String COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_3 = "com.encouragee.messaging.queueTopic3";
     public static final String FANOUT_QUEUE_1 = "some.fanout.queue";
     public static final String FANOUT_QUEUE_2 = "some2.fanout2.queue2";
+    public static final String HEADERS_QUEUE_1 = "headers.queue.1";
+    public static final String HEADERS_QUEUE_2 = "headers.queue.2";
 
 
 //    Direct exchange ---------------------------------------------------------------------------------------------------
@@ -136,6 +136,57 @@ public class RabbitMQConfiguration {
     }
 
 //    Fanout end --------------------------------------------------------------------------------------------------------
+
+//    Headers exchange --------------------------------------------------------------------------------------------------
+
+
+    @Bean
+    HeadersExchange headersExchange() {
+        return new HeadersExchange(headersExchangeName);
+    }
+
+    @Bean
+    Queue queueHeaders1() {
+        return new Queue(HEADERS_QUEUE_1, false);
+    }
+
+    @Bean
+    Queue queueHeaders2() {
+        return new Queue(HEADERS_QUEUE_2, false);
+    }
+
+    @Bean
+    Binding headersBinding1(Queue queueHeaders1, HeadersExchange headersExchange){
+        return BindingBuilder.bind(queueHeaders1).to(headersExchange)
+                .where("key1").matches("value1");
+    }
+
+    @Bean
+    Binding headersBinding11(Queue queueHeaders1, HeadersExchange headersExchange){
+        return BindingBuilder.bind(queueHeaders1).to(headersExchange)
+                .where("key11").matches("value11");
+    }
+
+    @Bean
+    Binding headersBinding111(Queue queueHeaders1, HeadersExchange headersExchange){
+        return BindingBuilder.bind(queueHeaders1).to(headersExchange)
+                .where("key111").matches("value111");
+    }
+
+    @Bean
+    Binding headersBinding2(Queue queueHeaders2, HeadersExchange headersExchange){
+        return BindingBuilder.bind(queueHeaders2).to(headersExchange).where("key2").matches("value2");
+    }
+
+    @RabbitListener(queues = { HEADERS_QUEUE_1 })
+    public void receiveMessageFromHeadersQueue1(String message) {
+        System.out.println("Received direct message (" + HEADERS_QUEUE_1 + ") message: " + message);
+    }
+
+    @RabbitListener(queues = { HEADERS_QUEUE_2 })
+    public void receiveMessageFromHeadersQueue2(String message) {
+        System.out.println("Received direct message (" + HEADERS_QUEUE_2 + ") message: " + message);
+    }
 
 
 //    @Bean

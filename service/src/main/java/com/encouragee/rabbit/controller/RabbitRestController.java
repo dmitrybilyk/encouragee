@@ -1,7 +1,11 @@
 package com.encouragee.rabbit.controller;
 
 import com.encouragee.rabbit.model.Conversation;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.amqp.support.converter.SimpleMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,8 +64,18 @@ public class RabbitRestController {
         return "fanout sent";
     }
 
+    @GetMapping("/sendHeaders")
+    public String sendHeaders() {
+        MessageProperties messageProperties = new MessageProperties();
+        messageProperties.setHeader("key1", "value1");
+        messageProperties.setHeader("key11", "value11");
+        messageProperties.setHeader("key111", "value111777");
+        messageProperties.setHeader("x-match", "all");
+        MessageConverter messageConverter = new SimpleMessageConverter();
+        Message message = messageConverter.toMessage("some message data", messageProperties);
+        rabbitTemplate.send(headersExchangeName, "", message);
 
-
-
+        return "Message sent to the RabbitMQ Header Exchange Successfully";
+    }
 
 }
