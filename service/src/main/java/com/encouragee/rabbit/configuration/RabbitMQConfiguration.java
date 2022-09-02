@@ -134,6 +134,10 @@ public class RabbitMQConfiguration {
     public void receiveMessageFromFanoutQueue2(String message) {
         System.out.println("Received direct message (" + FANOUT_QUEUE_2 + ") message: " + message);
     }
+
+//    Fanout end --------------------------------------------------------------------------------------------------------
+
+
 //    @Bean
 //    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter){
 //        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
