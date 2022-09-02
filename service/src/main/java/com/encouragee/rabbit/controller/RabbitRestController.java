@@ -27,11 +27,20 @@ public class RabbitRestController {
         return "message sent to direct exchange";
     }
 
-    @GetMapping("/sendToTopicExchange")
-    public String sendToTopicExchange() {
+    @GetMapping("/sendToTopicExchangeFirst")
+    public String sendToTopicExchangeFirst() {
         Conversation conversation = new Conversation();
-        conversation.setName("my conversation");
-        rabbitTemplate.convertAndSend(topicExchangeName, "com.encouragee.messaging",
+        conversation.setName("my conversation first queue");
+        rabbitTemplate.convertAndSend(topicExchangeName, "com.encouragee.messaging.first.conversation",
+                conversation);
+        return "conversation sent to topic exchange";
+    }
+
+    @GetMapping("/sendToTopicExchangeSecond")
+    public String sendToTopicExchangeSecond() {
+        Conversation conversation = new Conversation();
+        conversation.setName("my conversation second queue");
+        rabbitTemplate.convertAndSend(topicExchangeName, "com.encouragee.messaging.second.conversation",
                 conversation);
         return "conversation sent to topic exchange";
     }

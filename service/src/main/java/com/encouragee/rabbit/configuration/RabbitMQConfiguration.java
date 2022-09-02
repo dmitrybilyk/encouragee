@@ -2,6 +2,7 @@ package com.encouragee.rabbit.configuration;
 
 import com.encouragee.messaging.Receiver;
 import com.encouragee.rabbit.SimpleMessage;
+import com.encouragee.rabbit.model.Conversation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Queue;
@@ -24,6 +25,8 @@ import static org.springframework.amqp.core.BindingBuilder.bind;
 public class RabbitMQConfiguration {
     public static final String queueNameForDirectExchange = "queue.for.direct.exchange";
     public static final String topicExchangeName = "topic-exchange";
+    public static final String COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_1 = "com.encouragee.messaging.queueTopic1";
+    public static final String COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_2 = "com.encouragee.messaging.queueTopic2";
 
     @Bean
     Queue queue() {
@@ -44,27 +47,32 @@ public class RabbitMQConfiguration {
 
     @Bean
     Queue queueTopic1() {
-        return new Queue("com.encouragee.messaging.queueTopic1", false);
+        return new Queue(COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_1, false);
     }
 
     @Bean
     Queue queueTopic2() {
-        return new Queue("com.encouragee.messaging.queueTopic2", false);
+        return new Queue(COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_2, false);
     }
 
     @Bean
     Binding binding1(Queue queueTopic1, TopicExchange exchange){
-        return bind(queueTopic1).to(exchange).with("com.encouragee.messaging.#");
+        return bind(queueTopic1).to(exchange).with("com.encouragee.messaging.first.#");
     }
 
     @Bean
     Binding binding2(Queue queueTopic2, TopicExchange exchange){
-        return bind(queueTopic2).to(exchange).with("com.encouragee.messaging.#");
+        return bind(queueTopic2).to(exchange).with("com.encouragee.messaging.second.#");
     }
 
-    @RabbitListener(queues = { queueNameForDirectExchange })
-    public void receiveMessageFromTopic(String message) {
-        System.out.println("Received direct message (" + queueNameForDirectExchange + ") message: " + message);
+    @RabbitListener(queues = { COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_1 })
+    public void receiveMessageFromTopicQueue1(Conversation message) {
+        System.out.println("Received direct message (" + COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_1 + ") message: " + message);
+    }
+
+    @RabbitListener(queues = { COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_2 })
+    public void receiveMessageFromTopicQueue2(Conversation message) {
+        System.out.println("Received direct message (" + COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_2 + ") message: " + message);
     }
 
 //    @Bean
