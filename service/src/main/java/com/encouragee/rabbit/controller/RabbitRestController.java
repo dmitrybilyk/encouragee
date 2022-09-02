@@ -40,7 +40,16 @@ public class RabbitRestController {
     public String sendToTopicExchangeSecond() {
         Conversation conversation = new Conversation();
         conversation.setName("my conversation second queue");
-        rabbitTemplate.convertAndSend(topicExchangeName, "com.encouragee.messaging.second.conversation",
+        rabbitTemplate.convertAndSend(topicExchangeName, "com.encouragee.messaging.multi.second.conversation",
+                conversation);
+        return "conversation sent to topic exchange";
+    }
+
+    @GetMapping("/sendToTopicExchangeMulti")
+    public String sendToTopicExchangeMulti() {
+        Conversation conversation = new Conversation();
+        conversation.setName("my conversation second queue");
+        rabbitTemplate.convertAndSend(topicExchangeName, "com.encouragee.messaging.multi.hello",
                 conversation);
         return "conversation sent to topic exchange";
     }

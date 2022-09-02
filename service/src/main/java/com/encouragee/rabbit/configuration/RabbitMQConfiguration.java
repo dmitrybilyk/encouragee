@@ -27,6 +27,7 @@ public class RabbitMQConfiguration {
     public static final String topicExchangeName = "topic-exchange";
     public static final String COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_1 = "com.encouragee.messaging.queueTopic1";
     public static final String COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_2 = "com.encouragee.messaging.queueTopic2";
+    public static final String COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_3 = "com.encouragee.messaging.queueTopic3";
 
     @Bean
     Queue queue() {
@@ -56,13 +57,23 @@ public class RabbitMQConfiguration {
     }
 
     @Bean
+    Queue queueTopic3() {
+        return new Queue(COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_3, false);
+    }
+
+    @Bean
     Binding binding1(Queue queueTopic1, TopicExchange exchange){
         return bind(queueTopic1).to(exchange).with("com.encouragee.messaging.first.#");
     }
 
     @Bean
     Binding binding2(Queue queueTopic2, TopicExchange exchange){
-        return bind(queueTopic2).to(exchange).with("com.encouragee.messaging.second.#");
+        return bind(queueTopic2).to(exchange).with("com.encouragee.messaging.multi.#");
+    }
+
+    @Bean
+    Binding binding3(Queue queueTopic3, TopicExchange exchange){
+        return bind(queueTopic3).to(exchange).with("com.encouragee.messaging.multi.#");
     }
 
     @RabbitListener(queues = { COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_1 })
@@ -73,6 +84,11 @@ public class RabbitMQConfiguration {
     @RabbitListener(queues = { COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_2 })
     public void receiveMessageFromTopicQueue2(Conversation message) {
         System.out.println("Received direct message (" + COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_2 + ") message: " + message);
+    }
+
+    @RabbitListener(queues = { COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_3 })
+    public void receiveMessageFromTopicQueue3(Conversation message) {
+        System.out.println("Received direct message (" + COM_ENCOURAGEE_MESSAGING_QUEUE_TOPIC_3 + ") message: " + message);
     }
 
 //    @Bean
