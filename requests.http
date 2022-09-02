@@ -9,9 +9,11 @@ GET http://localhost:8081/sendToTopicExchangeFirst
 ###
 GET http://localhost:8081/sendToTopicExchangeSecond
 
-
 ###
 GET http://localhost:8081/sendToTopicExchangeMulti
+
+###
+GET http://localhost:8081/sendFanout
 
 
 ###

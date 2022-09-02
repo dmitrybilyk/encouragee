@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.encouragee.EncourageeApplication.*;
-import static com.encouragee.rabbit.configuration.RabbitMQConfiguration.queueNameForDirectExchange;
-import static com.encouragee.rabbit.configuration.RabbitMQConfiguration.topicExchangeName;
+import static com.encouragee.rabbit.configuration.RabbitMQConfiguration.*;
 
 @RestController("/rabbit")
 public class RabbitRestController {
@@ -57,10 +56,7 @@ public class RabbitRestController {
     @GetMapping("/sendFanout")
     public String sendFanout() {
         String message = " payload is broadcast";
-        rabbitTemplate.convertAndSend(FANOUT_EXCHANGE_NAME, "", "fanout" + message);
-        rabbitTemplate.convertAndSend(TOPIC_EXCHANGE_NAME, ROUTING_KEY_USER_IMPORTANT_WARN, "topic important warn" + message);
-        rabbitTemplate.convertAndSend(TOPIC_EXCHANGE_NAME, ROUTING_KEY_USER_IMPORTANT_ERROR, "topic important error" + message);
-        rabbitTemplate.convertAndSend(TOPIC_EXCHANGE_NAME, ROUTING_KEY_USER_IMPORTANT_ERROR, message + "topic important error");
+        rabbitTemplate.convertAndSend(fanoutExchangeName, "routing.does.not.matter", "fanout" + message);
         return "fanout sent";
     }
 
