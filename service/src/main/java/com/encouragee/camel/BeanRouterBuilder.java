@@ -1,16 +1,19 @@
 package com.encouragee.camel;
 
 import com.encouragee.model.camel.MyBean;
+import com.encouragee.model.camel.OtherBean;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
+import static org.apache.camel.builder.AggregationStrategies.flexible;
 
 @Component
 public class BeanRouterBuilder extends RouteBuilder {
     public static final String URI_SEARCH_BEAN = "direct:beanSearchClient";
     public static final String SOME_PROPERTY = "SOME_PROPERTY";
+    public static final String URI_GET_OTHER_BEAN = "direct:getOtherBean";
+    public static final String OTHER_BEAN = "OTHER_BEAN";
     private final BeanConvertor beanConvertor;
 
     public BeanRouterBuilder(BeanConvertor beanConvertor) {
@@ -35,6 +38,7 @@ public class BeanRouterBuilder extends RouteBuilder {
 //                .setBody(this::findConversations)
 //                .enrichWith(URI_LOOKUP_EVENTS).exchange(this::getCombinedResults)
 //                .to(EnrichRouteBuilder.URI_ENRICH_CONVERSATIONS)
+                .enrich(URI_GET_OTHER_BEAN, flexible().storeInProperty(OTHER_BEAN))
                 .setBody(this::findBean)
                 .to("direct:remoteService");
         ;
@@ -42,6 +46,7 @@ public class BeanRouterBuilder extends RouteBuilder {
 
     private MyBean findBean(Exchange exchange) {
         log.info("prop is used now " + exchange.getProperty(SOME_PROPERTY, String.class));
+        log.info("other beans name " + exchange.getProperty(OTHER_BEAN, OtherBean.class).getOtherName());
         return (MyBean) exchange.getIn().getBody();
     }
 
