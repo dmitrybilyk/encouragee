@@ -5,11 +5,13 @@ import com.encouragee.model.camel.MyBean;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
+import org.apache.camel.model.rest.RestParamType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.MediaType;
 
+import static com.encouragee.camel.BeanRouterBuilder.URI_SEARCH_BEAN;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static org.apache.camel.model.rest.RestParamType.*;
 
@@ -40,15 +42,19 @@ public class RestApiController extends RouteBuilder {
         rest("/api/").description("Teste REST Service")
                 .id("api-route")
                 .post("/bean")
+                .param().type(query).name("myParam").required(false).
+                dataType("string").endParam()
+                .param().type(body).name("body").description("The search object").endParam()
                 .produces(MediaType.APPLICATION_JSON)
-                .consumes(MediaType.APPLICATION_JSON)
+                .consumes(MediaType.APPLICATION_JSON).type(MyBean.class)
 //                .get("/hello/{place}")
                 .bindingMode(RestBindingMode.auto)
                 .type(MyBean.class)
                 .enableCORS(true)
                 //.outType(OutBean.class)
 
-                .to("direct:remoteService");
+//                .to("direct:remoteService");
+                    .to(URI_SEARCH_BEAN);
 
         from("direct:remoteService").routeId("direct-route")
                 .tracing()

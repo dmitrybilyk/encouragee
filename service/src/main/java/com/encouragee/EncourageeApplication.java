@@ -18,7 +18,7 @@ import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.encouragee.controller", "com.encouragee.messaging", "com.encouragee.camel",
-        "com.encouragee.rabbit.controller", "com.encouragee"})
+        "com.encouragee.rabbit.controller", "com.encouragee", "com.encouragee.camel"})
 @EnableSolrRepositories(
         basePackages = "com.encouragee.repository.solr",
         namedQueriesLocation = "classpath:solr-named-queries.properties")
