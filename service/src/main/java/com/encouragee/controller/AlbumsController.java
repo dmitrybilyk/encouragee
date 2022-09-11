@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import javax.print.attribute.standard.Media;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,7 +44,7 @@ public class AlbumsController {
     @Autowired
     private WebClient webClient;
 
-    @GetMapping(value = "/albums", consumes = "application/json")
+    @GetMapping(value = "/albums")
     public String getAlbums(Model model, @AuthenticationPrincipal OidcUser principal) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -65,7 +67,8 @@ public class AlbumsController {
 
         String url = "http://localhost:8087/albums";
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Beaerr " +accessToken);
+//        headers.add("content-type", MediaType.APPLICATION_JSON);
+        headers.add("Authorization", "Bearer " +accessToken);
         HttpEntity entity = new HttpEntity<>(headers);
         ResponseEntity<List<Album>> responseEntity =
                 restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<Album>>() {});

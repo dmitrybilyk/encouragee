@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.http.HttpResponse;
+import javax.ws.rs.core.MediaType;
 import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/albums")
+@RequestMapping(value = "/albums", produces = MediaType.APPLICATION_JSON)
 public class AlbumsController {
 
     @GetMapping(produces = "application/json")
