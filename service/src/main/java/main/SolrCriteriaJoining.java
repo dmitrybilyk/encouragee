@@ -1,6 +1,6 @@
 package main;
 
-import com.encouragee.model.solr.ClientConversationSearch;
+//import com.encouragee.model.solr.ClientConversationSearch;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.util.StringUtils;
 
