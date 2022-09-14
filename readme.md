@@ -21,3 +21,5 @@ Keycloak:
 rabbit
 https://github.com/rabbitmq/rabbitmq-tutorials/tree/master/java
 
+keycloak-client-token-provider.serverUrl=https://10.17.1.58/auth/;data.database.address=jdbc:postgresql://10.17.1.58:5432/encourage;keycloak-client-token-provider.realm=default;keycloak-client-token-provider.master-client-secret=37b016e0-1a7f-420d-8c4a-ab5b15447307;spring.rabbitmq.host=10.17.1.58
+
