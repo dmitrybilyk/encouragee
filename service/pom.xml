@@ -14,11 +14,235 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <camel.version>3.15.0</camel.version>
+        <encourage-scheduler.version>20.1.11</encourage-scheduler.version>
+<!--        <camel.version>3.15.0</camel.version>-->
         <junit-jupiter.version>5.8.2</junit-jupiter.version>
+<!--        <artifactory.baseurl>http://develdeploy:develdeploy@artifactory.zoomint.com/artifactory</artifactory.baseurl>-->
+<!--        <encourage-common.version>20.0.15</encourage-common.version>-->
+        <docker.ports.file>${project.build.directory}/docker.properties</docker.ports.file>
+        <docker.registry>artifactory.zoomint.com</docker.registry>
+
+        <solr-config-path>${config.path}/enc-conversations/solr-config-set/conversation</solr-config-path>
+
+        <pmdEnabled>false</pmdEnabled>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.zoomint.encourage</groupId>
+            <artifactId>encourage-conversations-model</artifactId>
+            <version>20.2.20</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zoomint.encourage</groupId>
+            <artifactId>encourage-data-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoomint.encourage</groupId>
+            <artifactId>encourage-scheduler-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoomint.encourage</groupId>
+            <artifactId>encourage-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoomint.encourage</groupId>
+            <artifactId>encourage-camel</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoomint.encourage</groupId>
+            <artifactId>encourage-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoomint.encourage</groupId>
+            <artifactId>encourage-eclipselink</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoomint.zoom-boot-starter</groupId>
+            <artifactId>zoom-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoomint.keycloak</groupId>
+            <artifactId>keycloak-client-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zoomint.keycloak</groupId>
+            <artifactId>keycloak-api-provider-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoomint.keycloak</groupId>
+            <artifactId>keycloak-api-provider-dto</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <!-- we use Jetty instead -->
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jetty</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-solr</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-restlet</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-bean-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-swagger-java-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.ws.rs</groupId>
+                    <artifactId>jsr311-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-rabbitmq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-rabbitmq-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.restlet.jee</groupId>
+            <artifactId>org.restlet.ext.slf4j</artifactId>
+        </dependency>
+
+        <!-- Annotations -->
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>annotations</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>com.zoomint.encourage</groupId>
+            <artifactId>encourage-testing</artifactId>
+            <version>${encourage-common.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zoomint.encourage</groupId>
+            <artifactId>encourage-wiremock</artifactId>
+            <version>${encourage-common.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.unitils</groupId>
+            <artifactId>unitils-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zoomint.keycloak</groupId>
+            <artifactId>keycloak-helper-lib</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -102,32 +326,6 @@
             <!--            <scope>import</scope>-->
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.springboot</groupId>
-            <artifactId>camel-servlet-starter</artifactId>
-            <version>${camel.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.camel.springboot</groupId>
-            <artifactId>camel-jackson-starter</artifactId>
-            <version>${camel.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.camel.springboot</groupId>
-            <artifactId>camel-swagger-java-starter</artifactId>
-            <version>${camel.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.camel.springboot</groupId>
-            <artifactId>camel-spring-boot-starter</artifactId>
-            <version>${camel.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-test-spring-junit5</artifactId>
-            <version>${camel.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.junit</groupId>
             <artifactId>junit-bom</artifactId>
             <version>${junit-jupiter.version}</version>
@@ -169,6 +367,19 @@
             <version>2.0.1.Final</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-spring-boot-dependencies</artifactId>
+            <version>${camel.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 
     <build>
@@ -178,34 +389,84 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
         <plugins>
+            <plugin>
+                <groupId>com.zoomint.maven.plugins</groupId>
+                <artifactId>quality-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <pmdEnabled>false</pmdEnabled>
+                    <checkStyleEnabled>false</checkStyleEnabled>
+                </configuration>
+            </plugin >
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.0.2</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>unpack-zookeeper-distribution</id>
-                        <phase>prepare-package</phase>
                         <goals>
-                            <goal>unpack-dependencies</goal>
+                            <goal>jar</goal>
                         </goals>
+                        <phase>package</phase>
                         <configuration>
-                            <includeGroupIds>org.apache.solr</includeGroupIds>
-                            <includeArtifactIds>zookeeper-dist</includeArtifactIds>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
-                            <excludes>
-                                */source-folder/copied-resource.txt
-                            </excludes>
+                            <classifier>original</classifier>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <!-- use only @ to avoid clashing with logback variable substitution -->
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                    <delimiters>
+                        <delimiter>@</delimiter>
+                    </delimiters>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <configuration>
+                            <!-- skip the default execution of integration tests - see profiles -->
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- use original as spring-boot-maven-plugin repackages the jar into non-standard structure -->
+                    <classesDirectory>${project.build.directory}/${project.build.finalName}.jar.original</classesDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.deviceinsight.helm</groupId>
+                <artifactId>helm-maven-plugin</artifactId>
+                <configuration>
+                    <chartName>encourage-conversations</chartName>
+                    <strictLint>true</strictLint>
+                </configuration>
+            </plugin>
         </plugins>
-
     </build>
 
 </project>

@@ -13,7 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.*;
-import org.springframework.util.MultiValueMapAdapter;
+//import org.springframework.util.MultiValueMapAdapter;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +39,7 @@ import static org.springframework.data.domain.Sort.unsorted;
 import static org.springframework.data.solr.core.query.AnyCriteria.any;
 import static org.springframework.data.solr.core.query.Criteria.where;
 
-@RestController("/products")
+//@RestController("/products")
 public class SolrRestController {
 
     private static final int DEFAULT_PAGE = 0;

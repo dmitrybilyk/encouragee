@@ -1,7 +1,8 @@
 package com.encouragee.camel.splitterandaggregatorEIP;
 
-import org.apache.camel.AggregationStrategy;
+//import org.apache.camel.AggregationStrategy;
 import org.apache.camel.Exchange;
+import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;

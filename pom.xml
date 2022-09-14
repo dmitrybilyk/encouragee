@@ -4,6 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>com.zoomint.encourage</groupId>
+        <artifactId>encourage-parent</artifactId>
+        <version>139</version>
+    </parent>
+
     <groupId>org.encouragee</groupId>
     <artifactId>encouragee</artifactId>
     <packaging>pom</packaging>
@@ -16,15 +22,77 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <springboot.version>2.6.7</springboot.version>
+        <springboot.version>2.1.16.RELEASE</springboot.version>
+        <encourage-common.version>20.0.15</encourage-common.version>
+        <encourage-data.version>20.2.17</encourage-data.version>
+        <!-- Apache Camel -->
+        <camel.version>2.25.4</camel.version>
+        <pmdEnabled>false</pmdEnabled>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>2.6.7</version>
+                <groupId>com.zoomint.encourage</groupId>
+                <artifactId>encourage-data-model</artifactId>
+                <version>${encourage-data.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zoomint.encourage</groupId>
+                <artifactId>encourage-scheduler-model</artifactId>
+                <version>${encourage-scheduler.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zoomint.encourage</groupId>
+                <artifactId>encourage-exceptions</artifactId>
+                <version>${encourage-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zoomint.encourage</groupId>
+                <artifactId>encourage-jackson</artifactId>
+                <version>${encourage-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zoomint.encourage</groupId>
+                <artifactId>encourage-spring</artifactId>
+                <version>${encourage-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zoomint.encourage</groupId>
+                <artifactId>encourage-camel</artifactId>
+                <version>${encourage-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zoomint.encourage</groupId>
+                <artifactId>encourage-eclipselink</artifactId>
+                <version>${encourage-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zoomint.encourage</groupId>
+                <artifactId>encourage-testing</artifactId>
+                <version>${encourage-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zoomint.encourage</groupId>
+                <artifactId>encourage-wiremock</artifactId>
+                <version>${encourage-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zoomint.keycloak.bom</groupId>
+                <artifactId>keycloak-bom</artifactId>
+                <version>${keycloak-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.zoomint.keycloak</groupId>
+                <artifactId>keycloak-client-boot-starter</artifactId>
+                <version>${keycloak-client-orchestrator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zoomint.keycloak</groupId>
+                <artifactId>keycloak-helper-lib</artifactId>
+                <version>${keycloak-helper-lib.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-resource-server -->
             <dependency>
@@ -45,7 +113,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
-                <version>2.6.7</version>
+                <version>2.1.16.RELEASE</version>
                 <scope>test</scope>
             </dependency>
 
@@ -59,19 +127,32 @@
 
     <build>
         <plugins>
+<!--            <plugin>-->
+<!--                <groupId>org.owasp</groupId>-->
+<!--                <artifactId>dependency-check-maven</artifactId>-->
+<!--                <version>6.1.1</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--&lt;!&ndash;                        <phase>install</phase>&ndash;&gt;-->
+<!--                        <goals>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <plugin>
-                <groupId>org.owasp</groupId>
-                <artifactId>dependency-check-maven</artifactId>
-                <version>6.1.1</version>
+                <groupId>com.zoomint.maven.plugins</groupId>
+                <artifactId>quality-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
+                        <phase>none</phase>
                     </execution>
                 </executions>
-            </plugin>
+                <configuration>
+                    <pmdEnabled>false</pmdEnabled>
+                    <checkStyleEnabled>false</checkStyleEnabled>
+                </configuration>
+            </plugin >
         </plugins>
     </build>
 
@@ -79,9 +160,16 @@
         <pluginRepository>
             <id>release</id>
             <name>plugins-release</name>
-            <url>http://artifactory.zoomint.com/artifactory/ci-libs-release</url>
+            <url>https://artifactory.zoomint.com/artifactory/ci-libs-release</url>
         </pluginRepository>
     </pluginRepositories>
+
+    <scm>
+        <url>https://bitbucket.zoomint.com/scm/six/conversations.git</url>
+        <connection>scm:git:https://bitbucket.zoomint.com/scm/six/conversations.git</connection>
+        <developerConnection>scm:git:ssh://git@bitbucket.zoomint.com:7999/six/conversations.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
     <repositories>
         <repository>
@@ -89,14 +177,14 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-            <url>http://artifactory.zoomint.com/artifactory/zoom-dev-release</url>
+            <url>https://artifactory.zoomint.com/artifactory/zoom-dev-release</url>
         </repository>
         <repository>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
             <id>zoom-dev-snapshot</id>
-            <url>http://artifactory.zoomint.com/artifactory/zoom-dev-snapshot</url>
+            <url>https://artifactory.zoomint.com/artifactory/zoom-dev-snapshot</url>
         </repository>
     </repositories>
 

@@ -6,7 +6,9 @@ import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
-import static org.apache.camel.builder.AggregationStrategies.flexible;
+import static org.apache.camel.util.toolbox.AggregationStrategies.flexible;
+
+//import static org.apache.camel.builder.AggregationStrategies.flexible;
 
 @Component
 public class BeanRouterBuilder extends RouteBuilder {

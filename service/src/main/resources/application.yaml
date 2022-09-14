@@ -1,11 +1,11 @@
-server:
-  port: 8081
-
-camel:
-  springboot:
-    name: ServicesRest
-management:
-  port: 8082
+#server:
+#  port: 8081
+#
+#camel:
+#  springboot:
+#    name: ServicesRest
+#management:
+#  port: 8082
 endpoints:
   enabled: false
   health:
@@ -17,8 +17,101 @@ app:
   api:
     path: '/camel'
 
+#spring:
+#  rabbitmq:
+#    username: "user"
+#    password: "pass"
+#    port: 5673
+
+
+#    Conversations
+
+enc-conversations:
+  port: 8107
+  display-options:
+    highlight:
+      fragsize: 200
+  index-task-queue: conversations-to-save
+  index-task-queue-size: 100
+  index-error-queue: conversations-to-save-dead-letter
+  index-error-queue-size: 100
+  solr-configset-path: @solr-config-path@
+
+# spring servlet parameters
+server:
+  port: ${enc-conversations.port}
+
+camel:
+  springboot:
+    name: @process.name@
+  rest:
+    component: restlet
+    binding-mode: json
+    host-name-resolver: localhostname
+    port: ${server.port}
+    endpoint-property:
+      restletBinding: "#restletBinding"
+    data-format-property:
+      objectMapper: "#jacksonObjectMapper"
+    api-context-path: /api/doc
+    api-context-route-id: doc-api
+    api-property:
+      api:
+        title: Conversations API
+        version: 1.0.0
+  component:
+    rabbitmq:
+      hostname: ${spring.rabbitmq.host}
+      port-number: ${spring.rabbitmq.port}
+      username: ${spring.rabbitmq.username}
+      password: ${spring.rabbitmq.password}
+      skip-queue-declare: true
+      skip-exchange-declare: true
+
 spring:
+  application:
+    name: @process.name@
+  jmx:
+    enabled: false
+  jackson:
+    serialization:
+      write-durations-as-timestamps: false
+    deserialization:
+      adjust-dates-to-context-time-zone: false
+      fail-on-unknown-properties: false
+    default-property-inclusion: non_null
+    mapper:
+      default-view-inclusion: true
   rabbitmq:
-    username: "user"
-    password: "pass"
-    port: 5673
+    host: localhost
+    port: 5672
+    username: callrec
+    password: callrec
+#    publisher-confirms: true
+  security:
+    user:
+      name: ${security.user.name}
+      password: ${security.user.password}
+      roles: 'ACTUATOR'
+  main:
+    allow-bean-definition-overriding: true
+
+management:
+  endpoints:
+    web.exposure.include: '*'
+    web.base-path: '/management'
+
+keycloak-client-token-provider:
+  client-id: "encourage-conversations-app"
+  application-name: "QM - shared roles"
+  scope-roles:
+    realm-management:
+      - "view-users"
+  permissions:
+    realm-management:
+      - "view-users"
+tracing:
+  reporter:
+    rabbitAddress: ${spring.rabbitmq.addresses}
+    rabbitUsername: ${spring.rabbitmq.username}
+    rabbitPassword: ${spring.rabbitmq.password}

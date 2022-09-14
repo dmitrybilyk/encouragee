@@ -4,7 +4,8 @@ import com.encouragee.camel.fileprocessor.FileProcessor;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
+//import org.junit.jupiter.api.Test;
 
 public class FileProcessorTest {
     private static final long DURATION_MILIS = 10000;
