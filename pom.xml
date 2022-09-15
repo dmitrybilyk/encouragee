@@ -20,6 +20,7 @@
     </modules>
 
     <properties>
+        <start-class>com.encouragee.EncourageeApplication</start-class>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <springboot.version>2.1.16.RELEASE</springboot.version>

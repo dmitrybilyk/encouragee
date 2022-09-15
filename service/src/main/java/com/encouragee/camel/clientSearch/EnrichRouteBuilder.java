@@ -128,8 +128,8 @@ public class EnrichRouteBuilder extends RouteBuilder {
 					.stopOnException()
 					.stopOnAggregateException()
 					.to(URI_LOAD_QUESTIONNAIRES)
-					.enrichWith(KeycloakRouteBuilder.URI_LOOKUP_USER_GROUP_MEMBERSHIP)
-						.body(ConversationUpdate.class, List.class, ConversationUpdate::addMemberUserRoles)
+//					.enrichWith(KeycloakRouteBuilder.URI_LOOKUP_USER_GROUP_MEMBERSHIP)
+//						.body(ConversationUpdate.class, List.class, ConversationUpdate::addMemberUserRoles)
 				.end()
 				.process(exchange -> exchange.getProperty("entities", ConversationEntities.class)
 						.enrichEvents(exchange.getIn().getBody(ConversationUpdate.class)
@@ -152,14 +152,14 @@ public class EnrichRouteBuilder extends RouteBuilder {
 		from(URI_LOAD_USERS).routeId("enrichLoadUsers")
 				.setBody().exchange(exchange -> exchange.getProperty("entities", ConversationEntities.class).getUserLookup())
 				.filter().body(UserLookup.class, lookup -> !lookup.isEmpty())
-				.to(KeycloakRouteBuilder.URI_LOOKUP_USER)
+//				.to(KeycloakRouteBuilder.URI_LOOKUP_USER)
 				.process(exchange -> exchange.getProperty("entities", ConversationEntities.class)
 						.setUsers(exchange.getIn().getBody(List.class)))
 		;
 
 		from(URI_LOAD_GROUPS).routeId("enrichLoadGroups")
 				.setBody().exchange(exchange -> exchange.getProperty("entities", ConversationEntities.class).getParentGroupUUIDs())
-				.to(KeycloakRouteBuilder.URI_LOOKUP_SUBGROUPS)
+//				.to(KeycloakRouteBuilder.URI_LOOKUP_SUBGROUPS)
 				.process(exchange -> exchange.getProperty("entities", ConversationEntities.class)
 						.setGroups(exchange.getIn().getBody(Set.class)))
 
