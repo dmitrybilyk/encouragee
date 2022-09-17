@@ -23,3 +23,13 @@ https://github.com/rabbitmq/rabbitmq-tutorials/tree/master/java
 
 keycloak-client-token-provider.serverUrl=https://10.17.1.58/auth/;data.database.address=jdbc:postgresql://10.17.1.58:5432/encourage;keycloak-client-token-provider.realm=default;keycloak-client-token-provider.master-client-secret=37b016e0-1a7f-420d-8c4a-ab5b15447307;spring.rabbitmq.host=10.17.1.58
 
+
+start locally conversations:
+ssh -L 6443:127.0.0.1:6443 root@vm058.dev.cz.zoomint.com
+kubectl port-forward encourage-data-697f5fd5c7-9chpv 8300:8300
+kubectl port-forward kubernetes-zookeeper-67cb4d8cc7-lg62w 9181:9181
+kubectl port-forward kubernetes-solrcloud-0 8983:8983
+kubectl port-forward encourage-zqm-connector-77f5bf6d9f-zktf9 8201:8201
+kubectl port-forward kubernetes-solrcloud-zookeeper-0 9983:2181
+
+kubectl port-forward kubernetes-rabbitmq-0 15672:15672
