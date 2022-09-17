@@ -4,6 +4,7 @@ package com.encouragee;
 import com.encouragee.camel.clientSearch.repository.ConversationSearchRepository;
 import com.encouragee.camel.clientSearch.repository.DefaultSolrRepository;
 import com.encouragee.camel.clientSearch.repository.EncourageSolrTemplate;
+import com.encouragee.rabbit.configuration.RabbitMQConfiguration;
 import com.zoomint.encourage.common.camel.EncourageCamelApplication;
 import com.zoomint.encourage.common.spring.BuildProperties;
 import com.zoomint.encourage.common.spring.WebSecurityConfig;
@@ -37,7 +38,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @EncourageCamelApplication
 @ComponentScan(basePackageClasses = {EncourageeApplication.class, BuildProperties.class})
 @PropertySource("build.properties")
-@Import({RabbitAutoConfiguration.class, WebSecurityConfig.class})
+@Import({RabbitAutoConfiguration.class, WebSecurityConfig.class, RabbitMQConfiguration.class})
 @EnableSolrRepositories(repositoryBaseClass = DefaultSolrRepository.class, basePackageClasses = ConversationSearchRepository.class)
 public class EncourageeApplication {
 
@@ -45,8 +46,8 @@ public class EncourageeApplication {
         SpringApplication.run(EncourageeApplication.class, args);
     }
 
-    @Value("${app.api.path}")
-    String contextPath;
+//    @Value("${app.api.path}")
+//    String contextPath;
 
 //    public static final String topicConversationExchange = "conversation-exchange";
 

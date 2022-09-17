@@ -7,7 +7,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RestApiRoute  extends RouteBuilder {
+public class RestApiRoute extends RouteBuilder {
 
   @Autowired
   private Environment env;
@@ -16,7 +16,7 @@ public class RestApiRoute  extends RouteBuilder {
   public void configure() throws Exception {
 
     restConfiguration()
-            .contextPath("/ecommapp")
+            .contextPath("/encouragee")
             .apiContextPath("/api-doc")
             .apiProperty("api.title", "REST API for processing Order")
             .apiProperty("api.version", "1.0")

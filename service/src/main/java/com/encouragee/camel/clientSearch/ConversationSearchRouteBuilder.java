@@ -1,5 +1,6 @@
 package com.encouragee.camel.clientSearch;
 
+import com.encouragee.ConversationProperties;
 import com.encouragee.camel.clientSearch.conversation.Conversation;
 import com.encouragee.camel.clientSearch.conversation.converter.ConversationRestriction;
 import com.encouragee.camel.clientSearch.conversation.index.ConversationCalculator;
@@ -10,6 +11,7 @@ import com.zoomint.encourage.common.model.search.SearchTemplate;
 import com.zoomint.encourage.common.model.search.SearchTemplateList;
 import com.zoomint.encourage.model.conversation.ConversationEvent;
 import com.zoomint.encourage.model.conversation.event.EventList;
+import com.zoomint.encourage.model.conversation.event.EventLookup;
 import com.zoomint.encourage.model.search.ClientConversationSearch;
 import com.zoomint.encourage.model.search.ClientConversationSearchConverter;
 import org.apache.camel.Exchange;
@@ -28,8 +30,10 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.function.Predicate;
 
+import static com.encouragee.ConversationProperties.SOURCE_CALLREC;
 import static com.encouragee.camel.clientSearch.DataAccessRouteBuilder.URI_GET_SAVED_FILTERS;
 import static com.zoomint.encourage.common.camel.EncourageCamelConstants.HTTP_QUERY_MULTIMAP;
+import static com.zoomint.encourage.common.camel.util.ExchangeUtils.reduce;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.emptyMap;
 import static java.util.function.Function.identity;
@@ -82,17 +86,17 @@ public class ConversationSearchRouteBuilder extends RouteBuilder {
 				.convertBodyTo(ClientConversationSearch.class)
 				.process().body(ClientConversationSearch.class, converter::updateConversationSearch)
 				.setProperty(PROP_PERMISSIONS).body(ClientConversationSearch.class, this::getConversationSearchPermissions)
-				.multicast()
-					.parallelProcessing()
-					.aggregationStrategy(useOriginal())
-					.stopOnException()
-					.to(URI_ENRICH_PERMISSION_FILTER, EnrichRouteBuilder.URI_ENRICH_SEARCH)
-				.end()
-				.setHeader(USER_ID, simple("${body?.onBehalfOf?.userId}"))
-				.enrich(URI_GET_SAVED_FILTERS, flexible().storeInProperty(USERS_ASSIGNED_FILTERS))
+//				.multicast()
+//					.parallelProcessing()
+//					.aggregationStrategy(useOriginal())
+//					.stopOnException()
+//					.to(URI_ENRICH_PERMISSION_FILTER, EnrichRouteBuilder.URI_ENRICH_SEARCH)
+//				.end()
+//				.setHeader(USER_ID, simple("${body?.onBehalfOf?.userId}"))
+//				.enrich(URI_GET_SAVED_FILTERS, flexible().storeInProperty(USERS_ASSIGNED_FILTERS))
 				.setBody(this::findConversations)
-				.enrichWith(URI_LOOKUP_EVENTS).exchange(this::getCombinedResults)
-				.to(EnrichRouteBuilder.URI_ENRICH_CONVERSATIONS)
+//				.enrichWith(URI_LOOKUP_EVENTS).exchange(this::getCombinedResults)
+//				.to(EnrichRouteBuilder.URI_ENRICH_CONVERSATIONS)
 		;
 
 //		from(URI_GET_CONVERSATION).routeId("convSearchById")
@@ -108,26 +112,26 @@ public class ConversationSearchRouteBuilder extends RouteBuilder {
 //				.process().body(Conversation.class, calculator::calculateBusinessFields)
 //		;
 //
-//		from(URI_LOOKUP_EVENTS).routeId("convLookupEvents")
-//				.convertBodyTo(EventLookup.class)
-//				.split().body(EventLookup.class, this::splitBySourceSystem)
-//					.aggregationStrategy(reduce(EventList.class, this::combineEventLists))
-//					.parallelProcessing() // contact source systems at the same time
-//					.stopOnException()
-//					.choice().when().body(Entry.class, entry -> SOURCE_CALLREC.equals(entry.getKey()))
-//						.setBody().body(Entry.class, Entry::getValue)
-//						.to(ZQMConnectorRouteBuilder.URI_LOOKUP_EVENTS)
-//					.otherwise()
-//						.setBody().body(Entry.class, Entry::getValue)
-//						.to(DataAccessRouteBuilder.URI_LOOKUP_EVENTS)
-//					.end()
-//				.end()
-//		;
+		from(URI_LOOKUP_EVENTS).routeId("convLookupEvents")
+				.convertBodyTo(EventLookup.class)
+				.split().body(EventLookup.class, this::splitBySourceSystem)
+					.aggregationStrategy(reduce(EventList.class, this::combineEventLists))
+					.parallelProcessing() // contact source systems at the same time
+					.stopOnException()
+					.choice().when().body(Map.Entry.class, entry -> SOURCE_CALLREC.equals(entry.getKey()))
+						.setBody().body(Map.Entry.class, Map.Entry::getValue)
+						.to(ZQMConnectorRouteBuilder.URI_LOOKUP_EVENTS)
+					.otherwise()
+						.setBody().body(Map.Entry.class, Map.Entry::getValue)
+						.to(DataAccessRouteBuilder.URI_LOOKUP_EVENTS)
+					.end()
+				.end()
+		;
 //
-//		from(URI_ENRICH_PERMISSION_FILTER).routeId("convPermissionFilter")
-//				.setBody().exchangeProperty(PROP_PERMISSIONS)
-//				.to(EnrichRouteBuilder.URI_ENRICH_SEARCH_PERMISSIONS)
-//		;
+		from(URI_ENRICH_PERMISSION_FILTER).routeId("convPermissionFilter")
+				.setBody().exchangeProperty(PROP_PERMISSIONS)
+				.to(EnrichRouteBuilder.URI_ENRICH_SEARCH_PERMISSIONS)
+		;
 	}
 
 	private ConversationSearchPermissions getConversationSearchPermissions(ClientConversationSearch search) {
@@ -236,18 +240,18 @@ public class ConversationSearchRouteBuilder extends RouteBuilder {
 		log.debug("Found {} conversation documents", results.getContent().size());
 		return results;
 	}
-//
-//	private Set<Entry<String, EventLookup>> splitBySourceSystem(EventLookup eventLookup) {
-//		return eventLookup.getEventIds().stream()
-//				.collect(groupingBy(ConversationProperties::getSourceSystem,
-//						collectingAndThen(toList(), eventIds -> EventLookup.builder().eventIds(eventIds).build())))
-//				.entrySet();
-//	}
-//
-//	private EventList combineEventLists(EventList one, EventList two) {
-//		one.getEvents().addAll(two.getEvents());
-//		return one;
-//	}
+
+	private Set<Map.Entry<String, EventLookup>> splitBySourceSystem(EventLookup eventLookup) {
+		return eventLookup.getEventIds().stream()
+				.collect(groupingBy(ConversationProperties::getSourceSystem,
+						collectingAndThen(toList(), eventIds -> EventLookup.builder().eventIds(eventIds).build())))
+				.entrySet();
+	}
+
+	private EventList combineEventLists(EventList one, EventList two) {
+		one.getEvents().addAll(two.getEvents());
+		return one;
+	}
 
 	@NotNull
 	private PageRequest getPageRequest(MultivaluedMap<String, String> queryParameters) {

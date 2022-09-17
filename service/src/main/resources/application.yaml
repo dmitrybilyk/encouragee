@@ -6,16 +6,16 @@
 #    name: ServicesRest
 #management:
 #  port: 8082
-endpoints:
-  enabled: false
-  health:
-    enabled: true
+#endpoints:
+#  enabled: false
+#  health:
+#    enabled: true
 quickstart:
   generateOrderPeriod: 10s
   processOrderPeriod: 30s
-app:
-  api:
-    path: '/camel'
+#app:
+#  api:
+#    path: '/camel'
 
 #spring:
 #  rabbitmq:
