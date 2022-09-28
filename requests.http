@@ -84,8 +84,7 @@ Content-Type: text/plain
 }
 
 ###
-
-
+GET http://localhost:8107/send/message
 
 
 

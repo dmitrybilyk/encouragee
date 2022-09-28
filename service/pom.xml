@@ -28,6 +28,14 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
+        <!-- Thanks for using https://jar-download.com -->
+
         <dependency>
             <groupId>com.zoomint.encourage</groupId>
             <artifactId>encourage-conversations-model</artifactId>

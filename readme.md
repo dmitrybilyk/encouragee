@@ -26,10 +26,13 @@ keycloak-client-token-provider.serverUrl=https://10.17.1.58/auth/;data.database.
 
 start locally conversations:
 ssh -L 6443:127.0.0.1:6443 root@vm058.dev.cz.zoomint.com
-kubectl port-forward encourage-data-697f5fd5c7-9chpv 8300:8300
-kubectl port-forward kubernetes-zookeeper-67cb4d8cc7-lg62w 9181:9181
-kubectl port-forward kubernetes-solrcloud-0 8983:8983
-kubectl port-forward encourage-zqm-connector-77f5bf6d9f-zktf9 8201:8201
-kubectl port-forward kubernetes-solrcloud-zookeeper-0 9983:2181
+kubectl get pods | grep encourage-data | sed 's/\|/ /'|awk '{print $1}' | xargs -I {} kubectl port-forward {} 8300:8300
+kubectl get pods | grep encourage-zqm-connector | sed 's/\|/ /'|awk '{print $1}' | xargs -I {} kubectl port-forward {} 8201:8201
+kubectl get pods | grep kubernetes-zookeeper | sed 's/\|/ /'|awk '{print $1}' | xargs -I {} kubectl port-forward {} 9181:9181
+kubectl get pods | grep kubernetes-solrcloud-zookeeper-0 | sed 's/\|/ /'|awk '{print $1}' | xargs -I {} kubectl port-forward {} 9983:2181
+kubectl get pods | grep kubernetes-solrcloud-0 | sed 's/\|/ /'|awk '{print $1}' | xargs -I {} kubectl port-forward {} 8983:8983
+
+kubectl get pods | grep encourage-framework | sed 's/\|/ /'|awk '{print $1}' | xargs -I {} kubectl port-forward {} 8102:8102
+kubectl get pods | grep encourage-conversations | sed 's/\|/ /'|awk '{print $1}' | xargs -I {} kubectl port-forward {} 8107:8107
 
 kubectl port-forward kubernetes-rabbitmq-0 15672:15672

@@ -95,6 +95,8 @@ spring:
       roles: 'ACTUATOR'
   main:
     allow-bean-definition-overriding: true
+  kafka:
+    bootstrap-servers: localhost:29092
 
 management:
   endpoints:
@@ -115,3 +117,4 @@ tracing:
     rabbitAddress: ${spring.rabbitmq.addresses}
     rabbitUsername: ${spring.rabbitmq.username}
     rabbitPassword: ${spring.rabbitmq.password}
+

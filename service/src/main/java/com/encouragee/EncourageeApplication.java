@@ -4,6 +4,9 @@ package com.encouragee;
 import com.encouragee.camel.clientSearch.repository.ConversationSearchRepository;
 import com.encouragee.camel.clientSearch.repository.DefaultSolrRepository;
 import com.encouragee.camel.clientSearch.repository.EncourageSolrTemplate;
+import com.encouragee.kafka.KafkaConsumerConfig;
+import com.encouragee.kafka.KafkaProducerConfig;
+import com.encouragee.kafka.KafkaTopicConfig;
 import com.encouragee.rabbit.configuration.RabbitMQConfiguration;
 import com.zoomint.encourage.common.camel.EncourageCamelApplication;
 import com.zoomint.encourage.common.spring.BuildProperties;
@@ -11,11 +14,9 @@ import com.zoomint.encourage.common.spring.WebSecurityConfig;
 import com.zoomint.encourage.model.search.ClientConversationSearchConverter;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
@@ -25,12 +26,14 @@ import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 //import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 //import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 //import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
 
 //@SpringBootApplication
 //@ComponentScan(basePackages = {"com.encouragee.controller", "com.encouragee.messaging", "com.encouragee.camel",
-//        "com.encouragee.rabbit.controller", "com.encouragee", "com.encouragee.camel"})
+//        "com.encouragee.rabbit.controller", "com.encouragee.camel", "com.encouragee.kafka.controller"})
+//@Import({KafkaTopicConfig.class,
+//        KafkaConsumerConfig.class, KafkaProducerConfig.class})
 //@EnableSolrRepositories(
 //        basePackages = "com.encouragee.repository.solr",
 //        namedQueriesLocation = "classpath:solr-named-queries.properties")
@@ -38,7 +41,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 @EncourageCamelApplication
 @ComponentScan(basePackageClasses = {EncourageeApplication.class, BuildProperties.class})
 @PropertySource("build.properties")
-@Import({RabbitAutoConfiguration.class, WebSecurityConfig.class, RabbitMQConfiguration.class})
+@Import({RabbitAutoConfiguration.class,
+        WebSecurityConfig.class,
+        RabbitMQConfiguration.class,
+        KafkaTopicConfig.class,
+        KafkaConsumerConfig.class,
+        KafkaProducerConfig.class})
 @EnableSolrRepositories(repositoryBaseClass = DefaultSolrRepository.class, basePackageClasses = ConversationSearchRepository.class)
 public class EncourageeApplication {
 
@@ -94,6 +102,12 @@ public class EncourageeApplication {
     @Bean
     public ClientConversationSearchConverter clientSearchConverter() {
         return new ClientConversationSearchConverter();
+    }
+
+//    Kafka
+    @KafkaListener(topics = "topicName", groupId = "foo")
+    public void listenGroupFoo(String message) {
+        System.out.println("Received Message in group foo: " + message);
     }
 
 }
