@@ -83,6 +83,8 @@ Content-Type: text/plain
 
 }
 
+#Kafka
+
 ###
 GET http://localhost:8107/send/message
 
