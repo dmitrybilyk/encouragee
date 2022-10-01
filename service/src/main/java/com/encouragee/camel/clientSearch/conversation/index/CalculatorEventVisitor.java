@@ -1,6 +1,6 @@
 package com.encouragee.camel.clientSearch.conversation.index;
 
-import com.encouragee.camel.clientSearch.conversation.Conversation;
+import com.zoomint.encourage.model.conversation.Conversation;
 import com.zoomint.encourage.model.conversation.ConversationEvent;
 import com.zoomint.encourage.model.conversation.ConversationEventVisitorBase;
 import com.zoomint.encourage.model.conversation.event.*;

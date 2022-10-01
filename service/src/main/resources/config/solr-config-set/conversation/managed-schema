@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+	IMPORTANT! Changes to this file should be accompanied with incrementing value of schemaVersion. See:
+	com.zoomint.encourage.data.accelerator.core.convertors.ConversationToSearchSolrDocumentConverter.CURRENT_SCHEMA_VERSION
+-->
+<schema name="encourage_conversation_search" version="1.6">
+
+	<uniqueKey>conversationId</uniqueKey>
+	<field name="conversationId" type="string" required="true" docValues="true"/>
+	<field name="eventIds" type="string" multiValued="true"/>
+
+	<field name="newId" type="string" docValues="true"/>
+	<field name="previousIds" type="string" multiValued="true"/>
+
+	<field name="schemaVersion" type="int"/>
+
+	<field name="correlationIds" type="string" multiValued="true"/>
+
+	<field name="direction" type="string" docValues="true"/>
+
+	<field name="duration" type="long" docValues="true"/>
+
+	<field name="dayOfWeek" type="int" docValues="true"/>
+	<field name="secondOfDay" type="int" docValues="true"/>
+	<field name="startDateTime" type="datetime" docValues="true"/>
+	<field name="latestSegmentStartDateTime" type="datetime" docValues="true"/>
+
+	<field name="communicationTypes" type="string" multiValued="true" docValues="true"/>
+
+	<field name="contactsFrom" type="address_stem" multiValued="true"/>
+	<field name="contactsTo" type="address_stem" multiValued="true"/>
+
+	<!-- speech phrases -->
+	<dynamicField name="sp_*" type="int" multiValued="true"/>
+	<!-- metadata-->
+	<dynamicField name="md_*" type="string" multiValued="true"/>
+	<dynamicField name="mdn_*" type="long" multiValued="true"/>
+
+	<field name="labels" type="int" multiValued="true"/>
+
+
+	<field name="_version_" type="long"/>
+
+	<!-- fulltext searched fileds -->
+	<field name="textSubject" type="text_stem" multiValued="true"/>
+	<field name="textBody" type="text_stem" multiValued="true"/>
+	<field name="comments" type="text_stem" multiValued="true"/>
+	<field name="surveyComments" type="text_stem" multiValued="true"/>
+
+	<!-- ids from postgres of agents that participated in this conversation -->
+	<field name="userIds" type="long" multiValued="true"/>
+	<field name="userUUIDs" type="string" multiValued="true"/>
+	<!-- ids from postgres of groups that agent was member of when participated in this conversation -->
+	<field name="groupIds" type="long" multiValued="true"/>
+	<field name="groupUUIDs" type="string" multiValued="true"/>
+
+	<!-- reviews -->
+	<field name="reviewIds" type="string" multiValued="true"/>
+	<field name="reviewQuestionnaireIds" type="string" multiValued="true"/>
+	<field name="reviewerUserIds" type="long" multiValued="true"/>
+	<field name="reviewerUserUUIDs" type="string" multiValued="true"/>
+	<field name="reviewedUserIds" type="long" multiValued="true"/>
+	<field name="reviewedUserUUIDs" type="string" multiValued="true"/>
+	<field name="reviewScoringSystems" type="string" multiValued="true"/>
+	<field name="reviewScoresPercentage" type="float" multiValued="true"/>
+	<field name="reviewScoresPoints" type="float" multiValued="true"/>
+
+	<!-- surveys -->
+	<field name="surveyIds" type="string" multiValued="true"/>
+	<field name="surveyQuestionnaireIds" type="string" multiValued="true"/>
+	<field name="surveyedUserIds" type="long" multiValued="true"/>
+	<field name="surveyedUserUUIDs" type="string" multiValued="true"/>
+	<field name="surveyScoringSystems" type="string" multiValued="true"/>
+	<field name="surveyScoresPercentage" type="float" multiValued="true"/>
+	<field name="surveyScoresPoints" type="float" multiValued="true"/>
+
+	<field name="resourceFlags" type="string" multiValued="true"/>
+
+	<field name="segmentsCount" type="int" docValues="true"/>
+	<field name="agentsCount" type="int" docValues="true"/>
+
+	<dynamicField name="random_*" type="random"/>
+
+	<fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
+	<fieldType name="int" class="solr.IntPointField"/>
+	<fieldType name="long" class="solr.LongPointField"/>
+	<fieldType name="float" class="solr.FloatPointField"/>
+	<fieldType name="datetime" class="solr.DatePointField"/>
+	<fieldType name="random" class="solr.RandomSortField"/>
+	<fieldType name="text_stem" class="solr.TextField">
+		<analyzer>
+			<tokenizer class="solr.ClassicTokenizerFactory"/>
+			<filter class="solr.LowerCaseFilterFactory"/>
+			<filter class="solr.ClassicFilterFactory"/>
+			<filter class="solr.SnowballPorterFilterFactory" language="English"/>
+		</analyzer>
+	</fieldType>
+	<fieldType name="address_stem" class="solr.TextField" positionIncrementGap="100">
+		<analyzer>
+			<tokenizer class="solr.KeywordTokenizerFactory"/>
+			<filter class="solr.TrimFilterFactory"/>
+			<filter class="solr.LowerCaseFilterFactory"/>
+			<filter class="solr.ReversedWildcardFilterFactory" withOriginal="true"
+			        maxPosAsterisk="3" maxPosQuestion="2" maxFractionAsterisk="0.33"/>
+		</analyzer>
+	</fieldType>
+
+</schema>

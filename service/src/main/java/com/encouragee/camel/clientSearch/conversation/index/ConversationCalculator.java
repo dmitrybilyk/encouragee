@@ -1,7 +1,7 @@
 package com.encouragee.camel.clientSearch.conversation.index;
 
-import com.encouragee.camel.clientSearch.conversation.Conversation;
 import com.google.common.collect.Ordering;
+import com.zoomint.encourage.model.conversation.Conversation;
 import com.zoomint.encourage.model.conversation.ConversationEvent;
 import org.springframework.stereotype.Component;
 

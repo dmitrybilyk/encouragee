@@ -29,10 +29,10 @@
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka -->
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.kafka</groupId>-->
+<!--            <artifactId>spring-kafka</artifactId>-->
+<!--        </dependency>-->
 
         <!-- Thanks for using https://jar-download.com -->
 
@@ -378,18 +378,18 @@
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
         </dependency>
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured-all</artifactId>
-            <version>5.1.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>5.1.1</version>
-            <scope>test</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.rest-assured</groupId>-->
+<!--            <artifactId>rest-assured-all</artifactId>-->
+<!--            <version>5.1.1</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.rest-assured</groupId>-->
+<!--            <artifactId>rest-assured</artifactId>-->
+<!--            <version>5.1.1</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
@@ -431,6 +431,22 @@
             </testResource>
         </testResources>
         <plugins>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <configuration>
+                            <!-- skip the default execution of integration tests - see profiles -->
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- use original as spring-boot-maven-plugin repackages the jar into non-standard structure -->
+                    <classesDirectory>${project.build.directory}/${project.build.finalName}.jar.original</classesDirectory>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>com.zoomint.maven.plugins</groupId>
                 <artifactId>quality-plugin</artifactId>
@@ -503,5 +519,229 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>docker-image</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>build-docker-image</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>push-docker-image</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>push</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>eleveo/encourage/${project.parent.artifactId}:${chart.version}</name>
+                                    <build>
+                                        <dockerFileDir>service</dockerFileDir>
+                                        <filter>@</filter>
+                                        <assembly>
+                                            <descriptorRef>artifact</descriptorRef>
+                                        </assembly>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>integration-docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>default</id>
+                                <configuration>
+                                    <!-- skip the default execution of integration tests - see profiles -->
+                                    <skip>true</skip>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>integration-docker</id>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <configuration>
+                                    <includes>
+                                        <include>**/*ITDB.java</include>
+                                        <include>**/*IT.java</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <!-- use original as spring-boot-maven-plugin repackages the jar into non-standard structure -->
+                            <classesDirectory>${project.build.directory}/${project.build.finalName}-original.jar
+                            </classesDirectory>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>dockers-start</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>dockers-stop</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <portPropertyFile>${docker.ports.file}</portPropertyFile>
+                            <verbose>true</verbose>
+                            <startParallel>true</startParallel>
+                            <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
+                            <images>
+                                <image>
+                                    <alias>solr</alias>
+                                    <!-- todo ENC-5168: release new parent with solr 7.6.0.15 -->
+                                    <name>zoomint/zoomint-solr-cloud:7.6.0.15</name>
+                                    <run>
+                                        <ports>
+                                            <port>+solr.host:solr.port:8983</port>
+                                            <port>+zk.host:zk.port:9983</port>
+                                        </ports>
+                                        <wait>
+                                            <log>Server Started @\d+ms</log>
+                                            <time>30000</time>
+                                        </wait>
+                                    </run>
+                                </image>
+                                <image>
+                                    <alias>rabbitmq</alias>
+                                    <name>rabbitmq:3.8.3-management-alpine</name>
+                                    <run>
+                                        <network>
+                                            <mode>custom</mode>
+                                            <name>test-network</name>
+                                            <alias>rabbit</alias>
+                                        </network>
+                                        <env>
+                                            <RABBITMQ_DEFAULT_USER>callrec</RABBITMQ_DEFAULT_USER>
+                                            <RABBITMQ_DEFAULT_PASS>callrec</RABBITMQ_DEFAULT_PASS>
+                                            <RABBITMQ_CONSOLE_LOG>reuse</RABBITMQ_CONSOLE_LOG>
+                                            <RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS>
+                                                -rabbit log_levels
+                                                [{queue,debug},{connection,debug},{channel,debug},{default,debug}]
+                                            </RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS>
+                                        </env>
+                                        <ports>
+                                            <port>+rabbit.host:rabbit.port:5672</port>
+                                            <!-- the admin port is useful for debugging -->
+                                            <port>+rabbit.host:rabbit.admin.port:15672</port>
+                                        </ports>
+                                        <wait>
+                                            <log>Server startup complete</log>
+                                            <time>30000</time>
+                                        </wait>
+                                    </run>
+                                </image>
+                                <image>
+                                    <alias>postgres</alias>
+                                    <name>postgres:9.6.3-alpine</name>
+                                    <run>
+                                        <network>
+                                            <mode>custom</mode>
+                                            <name>test-network</name>
+                                            <alias>postgres</alias>
+                                        </network>
+                                        <ports>
+                                            <port>+postgres.host:postgres.port:5432</port>
+                                        </ports>
+                                        <wait>
+                                            <log>PostgreSQL init process complete; ready for start up.</log>
+                                            <time>30000</time>
+                                        </wait>
+                                        <env>
+                                            <POSTGRES_USER>postgres
+                                            </POSTGRES_USER><!-- creates also database named test-->
+                                            <POSTGRES_PASSWORD>postgres</POSTGRES_PASSWORD>
+                                        </env>
+                                    </run>
+                                </image>
+                                <image>
+                                    <name>zoomint/keycloak:${keycloak-bom.version}
+                                    </name><!--todo version to one place.. or back to orchestrator? -->
+                                    <alias>keycloak</alias>
+                                    <run>
+                                        <network>
+                                            <mode>custom</mode>
+                                            <name>test-network</name>
+                                            <alias>keycloak</alias>
+                                        </network>
+                                        <ports>
+                                            <port>+keycloak.host:keycloak.port:8080</port>
+                                        </ports>
+                                        <dependsOn>
+                                            <container>postgres</container>
+                                            <container>rabbitmq</container>
+                                        </dependsOn>
+                                        <wait>
+                                            <log>Realm default registration finished</log>
+                                            <time>80000</time>
+                                        </wait>
+                                        <env>
+                                            <REALM_NAME>default</REALM_NAME>
+                                            <MASTER_CLIENT_NAME>client-management-app</MASTER_CLIENT_NAME>
+                                            <MASTER_CLIENT_SECRET>password</MASTER_CLIENT_SECRET>
+                                            <KEYCLOAK_USER>admin</KEYCLOAK_USER>
+                                            <KEYCLOAK_PASSWORD>password</KEYCLOAK_PASSWORD>
+                                            <DB_ADDR>postgres</DB_ADDR>
+                                            <DB_DATABASE>postgres</DB_DATABASE>
+                                            <DB_USER>postgres</DB_USER>
+                                            <DB_PASSWORD>postgres</DB_PASSWORD>
+                                            <DB_VENDOR>postgres</DB_VENDOR>
+                                            <DB_PORT>5432</DB_PORT>
+                                            <MESSAGE_QUEUE_HOST>rabbit</MESSAGE_QUEUE_HOST>
+                                            <MESSAGE_QUEUE_PORT>5672</MESSAGE_QUEUE_PORT>
+                                            <MESSAGE_QUEUE_USERNAME>callrec</MESSAGE_QUEUE_USERNAME>
+                                            <MESSAGE_QUEUE_PASSWORD>callrec</MESSAGE_QUEUE_PASSWORD>
+                                            <ROOT_LOGLEVEL>INFO</ROOT_LOGLEVEL>
+                                        </env>
+                                        <entrypoint>
+                                            <shell>/bin/bash -C /opt/jboss/tools/docker-entrypoint.sh
+                                                -Djavax.net.ssl.trustStore=/opt/jboss/keycloak/standalone/configuration/keystores/truststore.jks
+                                            </shell>
+                                        </entrypoint>
+                                        <privileged>true</privileged>
+                                    </run>
+                                </image>
+                            </images>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

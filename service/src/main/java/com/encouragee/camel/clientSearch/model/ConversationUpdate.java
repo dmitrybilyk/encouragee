@@ -1,8 +1,8 @@
 package com.encouragee.camel.clientSearch.model;
 
-import com.encouragee.camel.clientSearch.conversation.Conversation;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
+import com.zoomint.encourage.model.conversation.Conversation;
 import com.zoomint.encourage.model.conversation.ConversationEvent;
 import com.zoomint.encourage.model.conversation.event.EventList;
 import com.zoomint.keycloak.provider.api.dto.User;

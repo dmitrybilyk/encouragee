@@ -1,7 +1,6 @@
 package com.encouragee.camel.clientSearch.conversation.converter;
 
-import com.encouragee.camel.clientSearch.conversation.Conversation;
-import com.encouragee.camel.clientSearch.conversation.ConversationList;
+//import com.encouragee.camel.clientSearch.conversation.Conversation;
 import com.encouragee.camel.clientSearch.conversation.index.CalculatorEventVisitor;
 import com.encouragee.camel.clientSearch.conversation.index.ConversationCalculator;
 import com.encouragee.camel.clientSearch.model.ConversationDocument;

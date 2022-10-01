@@ -1,8 +1,9 @@
 package com.encouragee.camel.clientSearch.model;
 
-import com.encouragee.camel.clientSearch.conversation.Conversation;
+//import com.encouragee.camel.clientSearch.conversation.Conversation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.zoomint.encourage.model.conversation.Conversation;
 import lombok.*;
 
 import java.beans.ConstructorProperties;

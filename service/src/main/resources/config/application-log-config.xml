@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<included>
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>@log.path@/@process.name@.log</file>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>@log.path@/@process.name@.log.%i.gz</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>9</maxIndex>
+		</rollingPolicy>
+
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>10MB</maxFileSize>
+		</triggeringPolicy>
+
+		<encoder>
+			<pattern>%d %-5level [%X{traceId}/%X{spanId}] [%thread] %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d %-5level [%X{traceId}/%X{spanId}] [%thread] %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.zoomint" level="INFO"/>
+
+	<logger name="javax.management" level="INFO"/>
+
+	<logger name="org.apache.camel" level="INFO"/>
+	<logger name="org.apache.camel.component.rabbitmq" level="INFO"/>
+	<logger name="org.apache.camel.component.restlet" level="INFO"/>
+	<logger name="org.apache.camel.processor.DefaultErrorHandler" level="INFO"/>
+
+	<logger name="org.apache.http" level="INFO"/>
+	<logger name="org.apache.http.headers" level="INFO"/>
+	<logger name="org.apache.http.wire" level="INFO"/>
+
+	<logger name="org.eclipse.jetty" level="INFO"/>
+	<logger name="org.springframework" level="INFO"/>
+	<logger name="org.springframework.data.solr.core.SolrTemplate" level="INFO"/>
+
+	<logger name="org.restlet" level="ERROR"/>
+
+	<root level="INFO">
+		<appender-ref ref="FILE"/>
+	</root>
+</included>

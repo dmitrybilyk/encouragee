@@ -1,7 +1,6 @@
 package com.encouragee.camel.clientSearch;
 
 import com.encouragee.ConversationProperties;
-import com.encouragee.camel.clientSearch.conversation.Conversation;
 import com.encouragee.camel.clientSearch.conversation.converter.ConversationRestriction;
 import com.encouragee.camel.clientSearch.conversation.index.ConversationCalculator;
 import com.encouragee.camel.clientSearch.model.*;
@@ -9,6 +8,7 @@ import com.encouragee.camel.clientSearch.repository.ConversationSearchRepository
 import com.google.common.base.Splitter;
 import com.zoomint.encourage.common.model.search.SearchTemplate;
 import com.zoomint.encourage.common.model.search.SearchTemplateList;
+import com.zoomint.encourage.model.conversation.Conversation;
 import com.zoomint.encourage.model.conversation.ConversationEvent;
 import com.zoomint.encourage.model.conversation.event.EventList;
 import com.zoomint.encourage.model.conversation.event.EventLookup;

@@ -95,8 +95,8 @@ spring:
       roles: 'ACTUATOR'
   main:
     allow-bean-definition-overriding: true
-  kafka:
-    bootstrap-servers: localhost:29092
+#  kafka:
+#    bootstrap-servers: localhost:29092
 
 management:
   endpoints:
