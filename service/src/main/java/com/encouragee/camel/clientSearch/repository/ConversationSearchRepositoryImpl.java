@@ -2,9 +2,9 @@ package com.encouragee.camel.clientSearch.repository;
 
 import com.encouragee.ConversationProperties;
 import com.encouragee.camel.clientSearch.conversation.converter.ClientConversationSearchConverter;
-import com.encouragee.camel.clientSearch.model.ConversationDocument;
 import com.encouragee.camel.clientSearch.model.ConversationSearchPermissions;
 import com.encouragee.camel.clientSearch.model.EncourageSolrResultPage;
+import com.encouragee.model.solr.ConversationDocument;
 import com.google.common.collect.ImmutableList;
 import com.zoomint.encourage.common.exceptions.accelerator.WrongParameterException;
 import com.zoomint.encourage.model.search.ClientConversationSearch;
@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.encouragee.camel.clientSearch.model.ConversationDocument.*;
+import static com.encouragee.model.solr.ConversationDocument.*;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Collections.emptyList;
 import static org.springframework.data.solr.core.query.AnyCriteria.any;

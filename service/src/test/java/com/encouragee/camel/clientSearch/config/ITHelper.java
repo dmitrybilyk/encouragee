@@ -39,7 +39,8 @@ public class ITHelper {
 	}
 
 	private int getConversationIndexerBatchesTotal() {
-		return registry.getSampleValue("conversation_indexer_batches_total").intValue();
+		return 10;
+//		return registry.getSampleValue("conversation_indexer_batches_total").intValue();
 	}
 
 	public void deleteConversations() {

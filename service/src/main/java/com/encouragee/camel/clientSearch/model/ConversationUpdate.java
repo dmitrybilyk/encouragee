@@ -1,5 +1,6 @@
 package com.encouragee.camel.clientSearch.model;
 
+import com.encouragee.model.solr.ConversationDocument;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 import com.zoomint.encourage.model.conversation.Conversation;

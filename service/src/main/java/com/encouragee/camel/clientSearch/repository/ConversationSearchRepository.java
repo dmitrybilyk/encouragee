@@ -1,6 +1,6 @@
 package com.encouragee.camel.clientSearch.repository;
 
-import com.encouragee.camel.clientSearch.model.ConversationDocument;
+import com.encouragee.model.solr.ConversationDocument;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.solr.repository.SolrCrudRepository;
 

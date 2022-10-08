@@ -1,7 +1,7 @@
 package com.encouragee.camel.clientSearch.conversation.converter;
 
-import com.encouragee.camel.clientSearch.model.ConversationDocument;
 import com.encouragee.camel.clientSearch.model.ConversationUpdate;
+import com.encouragee.model.solr.ConversationDocument;
 import com.zoomint.encourage.common.model.label.Label;
 import com.zoomint.encourage.common.model.label.LabelLookup;
 import com.zoomint.encourage.model.conversation.ConversationEvent;

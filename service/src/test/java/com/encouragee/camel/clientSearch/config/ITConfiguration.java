@@ -200,7 +200,7 @@ public class ITConfiguration {
 				.objectMapperConfig(objectMapperConfig()
 						.jackson2ObjectMapperFactory((cls, charset) -> objectMapper()));
 		RestAssured.baseURI = "http://localhost:" + servicePort();
-		RestAssured.basePath = "/api/v3";
+		RestAssured.basePath = "/api/encouragee/api/v3";
 	}
 }
 

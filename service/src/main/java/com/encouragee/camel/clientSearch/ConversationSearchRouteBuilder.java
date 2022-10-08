@@ -5,6 +5,7 @@ import com.encouragee.camel.clientSearch.conversation.converter.ConversationRest
 import com.encouragee.camel.clientSearch.conversation.index.ConversationCalculator;
 import com.encouragee.camel.clientSearch.model.*;
 import com.encouragee.camel.clientSearch.repository.ConversationSearchRepository;
+import com.encouragee.model.solr.ConversationDocument;
 import com.google.common.base.Splitter;
 import com.zoomint.encourage.common.model.search.SearchTemplate;
 import com.zoomint.encourage.common.model.search.SearchTemplateList;

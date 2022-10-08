@@ -1,5 +1,6 @@
 package com.encouragee.camel.clientSearch.model;
 
+import com.encouragee.model.solr.ConversationDocument;
 import lombok.Data;
 
 import java.util.List;

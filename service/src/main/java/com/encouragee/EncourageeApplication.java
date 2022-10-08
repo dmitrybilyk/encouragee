@@ -14,6 +14,11 @@ import com.zoomint.encourage.common.spring.WebSecurityConfig;
 import com.zoomint.encourage.model.search.ClientConversationSearchConverter;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,6 +36,8 @@ import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 //import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 //import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.client.RestTemplate;
+
+import static org.springframework.amqp.core.BindingBuilder.bind;
 
 //@SpringBootApplication
 //@ComponentScan(basePackages = {"com.encouragee.controller", "com.encouragee.messaging", "com.encouragee.camel",
@@ -92,6 +99,44 @@ public class EncourageeApplication {
     @Bean
     public SolrTemplate solrTemplate(SolrClient client) throws Exception {
         return new SolrTemplate(client);
+    }
+
+    @Bean
+    Queue searchErrorQueue(ConversationProperties properties) {
+        return QueueBuilder
+                .durable(properties.getIndexErrorQueue())
+                .withArgument("x-max-length", properties.getIndexErrorQueueSize())
+                .withArgument("x-overflow", "reject-publish")
+                .build();
+    }
+
+    @Bean
+    Queue searchIndexQueue(ConversationProperties properties) {
+        return QueueBuilder
+                .durable(properties.getIndexTaskQueue())
+                .withArgument("x-max-length", properties.getIndexTaskQueueSize())
+                .withArgument("x-overflow", "reject-publish")
+                .build();
+    }
+
+    /**
+     * Auto-created by {@link RabbitAdmin}.
+     * Note: cannot use default exchange "" which auto-binds queues with their names due to the following issues:
+     * https://issues.apache.org/jira/browse/CAMEL-9561
+     * https://issues.apache.org/jira/browse/CAMEL-12471
+     */
+    @Bean
+    Binding bindSearchIndexWithReplyQueue(Queue searchIndexQueue) {
+        return bind(searchIndexQueue)
+                .to(new DirectExchange("amq.direct"))
+                .withQueueName();
+    }
+
+    @Bean
+    Binding bindIndexErrorQueue(Queue searchErrorQueue) {
+        return bind(searchErrorQueue)
+                .to(new DirectExchange("amq.direct"))
+                .withQueueName();
     }
 
 //    @Bean

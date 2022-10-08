@@ -40,6 +40,8 @@ enc-conversations:
 # spring servlet parameters
 server:
   port: ${enc-conversations.port}
+  servlet:
+    context-path: /
 
 camel:
   springboot:

@@ -39,7 +39,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import static com.encouragee.camel.clientSearch.model.ConversationDocument.*;
+import static com.encouragee.model.solr.ConversationDocument.*;
 import static com.zoomint.encourage.model.search.SearchableMetadata.CompareOperator.NUMBER_OPERATORS;
 import static java.time.LocalTime.MIDNIGHT;
 import static java.time.temporal.TemporalAdjusters.previousOrSame;

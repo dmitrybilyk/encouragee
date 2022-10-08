@@ -1,8 +1,8 @@
 package com.encouragee.camel.clientSearch.repository;
 
-import com.encouragee.camel.clientSearch.model.ConversationDocument;
 import com.encouragee.camel.clientSearch.model.ConversationSearchPermissions;
 import com.encouragee.camel.clientSearch.model.EncourageSolrResultPage;
+import com.encouragee.model.solr.ConversationDocument;
 import com.zoomint.encourage.model.search.ClientConversationSearch;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

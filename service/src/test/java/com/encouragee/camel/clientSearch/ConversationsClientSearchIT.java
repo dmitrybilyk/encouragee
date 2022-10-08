@@ -31,7 +31,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.encouragee.camel.clientSearch.model.ConversationDocument.FIELD_RANDOM_PREFIX;
+import static com.encouragee.model.solr.ConversationDocument.FIELD_RANDOM_PREFIX;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.zoomint.encourage.common.model.user.Activity.Activities.*;
 import static com.zoomint.encourage.model.conversation.ConversationParticipantType.AGENT;
