@@ -743,6 +743,71 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>rabbit</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>dockers-start</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>start</goal>
+<!--                                    <goal>start</goal>-->
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>dockers-stop</id>
+                                <phase>post-clean</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+<!--                            <portPropertyFile>${docker.ports.file}</portPropertyFile>-->
+                            <verbose>true</verbose>
+                            <startParallel>true</startParallel>
+                            <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
+                            <images>
+                                <image>
+                                    <alias>rabbitmq</alias>
+                                    <name>rabbitmq:3.8.3-management-alpine</name>
+                                    <run>
+                                        <network>
+                                            <mode>custom</mode>
+                                            <name>rabbit-network</name>
+                                            <alias>rabbit</alias>
+                                        </network>
+                                        <env>
+                                            <RABBITMQ_DEFAULT_USER>user</RABBITMQ_DEFAULT_USER>
+                                            <RABBITMQ_DEFAULT_PASS>pass</RABBITMQ_DEFAULT_PASS>
+                                            <RABBITMQ_CONSOLE_LOG>reuse</RABBITMQ_CONSOLE_LOG>
+                                            <RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS>
+                                                -rabbit log_levels
+                                                [{queue,debug},{connection,debug},{channel,debug},{default,debug}]
+                                            </RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS>
+                                        </env>
+                                        <ports>
+                                            <port>+rabbit.host:rabbit.port:5673</port>
+                                            <!-- the admin port is useful for debugging -->
+                                            <port>+rabbit.host:rabbit.admin.port:15673</port>
+                                        </ports>
+                                        <wait>
+                                            <log>Server startup complete</log>
+                                            <time>30000</time>
+                                        </wait>
+                                    </run>
+                                </image>
+                            </images>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
 </project>

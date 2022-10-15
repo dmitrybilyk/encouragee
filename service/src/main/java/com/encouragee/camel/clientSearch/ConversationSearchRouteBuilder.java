@@ -18,6 +18,7 @@ import com.zoomint.encourage.model.search.ClientConversationSearchConverter;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -44,6 +45,7 @@ import static org.apache.camel.util.toolbox.AggregationStrategies.useOriginal;
 import static org.springframework.data.domain.Sort.unsorted;
 
 @Component
+@Profile("solr")
 public class ConversationSearchRouteBuilder extends RouteBuilder {
 
 	public static final String URI_SEARCH_CONVERSATIONS = "direct:convSearchClient";

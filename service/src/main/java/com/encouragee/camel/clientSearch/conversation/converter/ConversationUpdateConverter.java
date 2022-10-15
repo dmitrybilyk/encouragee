@@ -5,6 +5,7 @@ import com.zoomint.encourage.model.conversation.Conversation;
 import com.zoomint.encourage.model.conversation.ConversationList;
 import com.zoomint.encourage.model.conversation.event.EventList;
 import org.apache.camel.Converter;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import static java.util.Collections.singletonList;
@@ -12,6 +13,7 @@ import static java.util.stream.Collectors.toList;
 
 @Converter
 @Component
+@Profile("solr")
 public class ConversationUpdateConverter {
 
 	@Converter

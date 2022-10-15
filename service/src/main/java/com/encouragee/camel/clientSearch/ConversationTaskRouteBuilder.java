@@ -17,6 +17,7 @@ import com.zoomint.encourage.model.scheduler.ImportTask;
 import com.zoomint.encourage.model.search.ClientConversationSearch;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -42,6 +43,7 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Component
+@Profile("solr")
 public class ConversationTaskRouteBuilder extends RouteBuilder {
 	public static final String URI_START_DELETE = "seda:taskDeleteStart?waitForTaskToComplete=Never";
 	public static final String URI_START_REINDEX = "seda:taskReindexStart?waitForTaskToComplete=Never";

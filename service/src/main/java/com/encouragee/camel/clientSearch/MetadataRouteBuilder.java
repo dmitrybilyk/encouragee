@@ -4,6 +4,7 @@ import com.zoomint.encourage.model.EncourageConstants;
 import com.zoomint.encourage.model.search.SearchableMetadata;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleTermsQuery;
 import org.springframework.data.solr.core.query.TermsOptions.Sort;
@@ -22,6 +23,7 @@ import static com.zoomint.encourage.model.search.SearchableMetadata.CompareOpera
 import static java.util.stream.Collectors.toList;
 
 @Component
+@Profile("solr")
 public class MetadataRouteBuilder extends RouteBuilder {
 	public static final String URI_METADATA_STARTS_WITH = "direct:metadataSearchStartsWith";
 

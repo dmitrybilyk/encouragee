@@ -12,6 +12,7 @@ import com.zoomint.encourage.common.camel.EncourageCamelApplication;
 import com.zoomint.encourage.common.spring.BuildProperties;
 import com.zoomint.encourage.common.spring.WebSecurityConfig;
 import com.zoomint.encourage.model.search.ClientConversationSearchConverter;
+import com.zoomint.keycloak.KeycloakClientConfiguration;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.amqp.core.Binding;
@@ -21,20 +22,21 @@ import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.solr.SolrRepositoriesAutoConfiguration;
+import org.springframework.boot.autoconfigure.solr.SolrAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 //import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 //import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 //import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 //import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.data.solr.repository.support.SolrRepositoryFactory;
 import org.springframework.web.client.RestTemplate;
 
 import static org.springframework.amqp.core.BindingBuilder.bind;
@@ -48,17 +50,20 @@ import static org.springframework.amqp.core.BindingBuilder.bind;
 //        basePackages = "com.encouragee.repository.solr",
 //        namedQueriesLocation = "classpath:solr-named-queries.properties")
 
-@EncourageCamelApplication
+//@EncourageCamelApplication
+@SpringBootApplication(exclude = {SolrAutoConfiguration.class, KeycloakClientConfiguration.class,
+        SolrRepositoriesAutoConfiguration.class})
 @ComponentScan(basePackageClasses = {EncourageeApplication.class, BuildProperties.class})
 @PropertySource("build.properties")
 @Import({RabbitAutoConfiguration.class,
-        WebSecurityConfig.class,
+//        WebSecurityConfig.class,
         RabbitMQConfiguration.class,
 //        KafkaTopicConfig.class,
 //        KafkaConsumerConfig.class,
 //        KafkaProducerConfig.class
 })
-@EnableSolrRepositories(repositoryBaseClass = DefaultSolrRepository.class, basePackageClasses = ConversationSearchRepository.class)
+//@EnableSolrRepositories(repositoryBaseClass = DefaultSolrRepository.class, basePackageClasses = ConversationSearchRepository.class)
+//@EnableAutoConfiguration(exclude = {SolrAutoConfiguration.class, KeycloakClientConfiguration.class})
 public class EncourageeApplication {
 
 //    public static void main(String[] args) {
@@ -91,17 +96,20 @@ public class EncourageeApplication {
 //    }
 
     @Bean
+    @Profile("solr")
     public SolrClient solrClient() {
         return new HttpSolrClient.Builder("http://localhost:8983/solr").build();
 //        return new HttpSolrClient.Builder("http://localhost:8983/solr/products").build();
     }
 
     @Bean
+    @Profile("solr")
     public SolrTemplate solrTemplate(SolrClient client) throws Exception {
         return new SolrTemplate(client);
     }
 
     @Bean
+    @Profile("solr")
     Queue searchErrorQueue(ConversationProperties properties) {
         return QueueBuilder
                 .durable(properties.getIndexErrorQueue())
@@ -111,6 +119,7 @@ public class EncourageeApplication {
     }
 
     @Bean
+    @Profile("solr")
     Queue searchIndexQueue(ConversationProperties properties) {
         return QueueBuilder
                 .durable(properties.getIndexTaskQueue())
@@ -126,6 +135,7 @@ public class EncourageeApplication {
      * https://issues.apache.org/jira/browse/CAMEL-12471
      */
     @Bean
+    @Profile("solr")
     Binding bindSearchIndexWithReplyQueue(Queue searchIndexQueue) {
         return bind(searchIndexQueue)
                 .to(new DirectExchange("amq.direct"))
@@ -133,6 +143,7 @@ public class EncourageeApplication {
     }
 
     @Bean
+    @Profile("solr")
     Binding bindIndexErrorQueue(Queue searchErrorQueue) {
         return bind(searchErrorQueue)
                 .to(new DirectExchange("amq.direct"))
@@ -156,11 +167,13 @@ public class EncourageeApplication {
     }
 
     @Bean
+    @Profile("solr")
     EncourageSolrTemplate conversationSearchSolrTemplate(SolrClient solrClient) {
         return new EncourageSolrTemplate(solrClient);
     }
 
     @Bean
+    @Profile("solr")
     public ClientConversationSearchConverter clientSearchConverter() {
         return new ClientConversationSearchConverter();
     }

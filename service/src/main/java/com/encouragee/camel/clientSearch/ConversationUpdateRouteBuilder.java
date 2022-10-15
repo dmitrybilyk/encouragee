@@ -14,6 +14,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.restlet.RestletOperationException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient.RemoteSolrException;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -31,6 +32,7 @@ import static java.util.stream.Collectors.*;
 import static org.apache.camel.util.toolbox.AggregationStrategies.useOriginal;
 
 @Component
+@Profile("solr")
 public class ConversationUpdateRouteBuilder extends RouteBuilder {
 
 	public static final String URI_ADD_EVENT_TO_CONVERSATION = "direct:convAddEvent";

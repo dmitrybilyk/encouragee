@@ -3,6 +3,7 @@ package com.encouragee.camel.clientSearch;
 import com.zoomint.encourage.model.scheduler.ImportReport;
 import com.zoomint.encourage.model.scheduler.ImportTask;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -14,6 +15,7 @@ import static org.eclipse.jetty.http.MimeTypes.Type.APPLICATION_JSON_UTF_8;
  * Routes for processing an import tasks.
  */
 @Component
+@Profile("solr")
 public class TaskRouteBuilder extends RouteBuilder {
 	public static final String URI_INIT_TASK = "direct:taskStart";
 

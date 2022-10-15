@@ -11,6 +11,7 @@ import com.zoomint.encourage.model.conversation.event.TagEvent;
 import com.zoomint.keycloak.provider.api.dto.User;
 import com.zoomint.keycloak.provider.api.dto.UserLookup;
 import org.apache.camel.Converter;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,7 @@ import static java.util.stream.Collectors.toSet;
  */
 @Component
 @Converter
+@Profile("solr")
 public class LookupsConverter {
 
 	@Converter

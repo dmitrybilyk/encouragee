@@ -36,3 +36,6 @@ kubectl get pods | grep encourage-framework | sed 's/\|/ /'|awk '{print $1}' | x
 kubectl get pods | grep encourage-conversations | sed 's/\|/ /'|awk '{print $1}' | xargs -I {} kubectl port-forward {} 8107:8107
 
 kubectl port-forward kubernetes-rabbitmq-0 15672:15672
+
+### Run with rabbit profile
+mvn spring-boot:run -Dspring-boot.run.profiles=rabbit

@@ -16,6 +16,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.spi.DataFormat;
 import org.restlet.data.Method;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 //import static com.zoomint.encourage.common.camel.util.ExchangeUtils.addHttpQuery;
@@ -32,6 +33,7 @@ import static org.restlet.data.Method.POST;
  * Routes for communicating with Data Access.
  */
 @Component
+@Profile("solr")
 public class DataAccessRouteBuilder extends RouteBuilder {
 
 	public static final String URI_LOOKUP_EVENTS = "direct:da_lookupEvents";

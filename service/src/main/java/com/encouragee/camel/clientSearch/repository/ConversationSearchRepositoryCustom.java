@@ -6,12 +6,14 @@ import com.encouragee.model.solr.ConversationDocument;
 import com.zoomint.encourage.model.search.ClientConversationSearch;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 
 
+@Profile("solr")
 public interface ConversationSearchRepositoryCustom {
 
 	EncourageSolrResultPage<ConversationDocument> findConversations(

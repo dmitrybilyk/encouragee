@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 import com.zoomint.encourage.common.exceptions.ResourceNotFoundException;
 import com.zoomint.encourage.model.conversation.Conversation;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -24,6 +25,7 @@ import static java.util.stream.Collectors.toList;
 import static org.apache.camel.LoggingLevel.DEBUG;
 
 @Component
+@Profile("solr")
 public class ConversationIndexingRouteBuilder extends RouteBuilder {
 	public static final String URI_PREPARE_UPDATE = "direct:indexConvPrepare";
 	public static final String URI_PERFORM_UPDATE = "direct:indexConvPerform";

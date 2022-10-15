@@ -24,6 +24,7 @@ import com.zoomint.encourage.model.search.ClientConversationSearch;
 import com.zoomint.keycloak.provider.api.dto.UserLookup;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -36,6 +37,7 @@ import static java.util.stream.Collectors.toSet;
 import static org.apache.camel.util.toolbox.AggregationStrategies.useOriginal;
 
 @Component
+@Profile("solr")
 public class EnrichRouteBuilder extends RouteBuilder {
 	public static final String URI_ENRICH_CONVERSATIONS = "direct:enrichConversations";
 	public static final String URI_ENRICH_CONVERSATION = "direct:enrichConversation";

@@ -1,5 +1,6 @@
 package com.encouragee.camel.clientSearch.repository;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.repository.query.SolrEntityInformation;
 import org.springframework.data.solr.repository.support.SimpleSolrRepository;
@@ -15,6 +16,7 @@ import static com.google.common.collect.Lists.newArrayList;
  * <a href="http://docs.spring.io/spring-data/commons/docs/current/reference/html/#repositories.custom-behaviour-for-all-repositories">
  * Spring Data Commons - Reference Documentation: Adding custom behavior to all repositories</a>
  */
+@Profile("solr")
 public class DefaultSolrRepository<T, ID extends Serializable> extends SimpleSolrRepository<T, ID> {
 
 	private final String solrCollectionName;

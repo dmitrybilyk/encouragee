@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.solr.core.query.HighlightOptions;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
@@ -27,6 +28,7 @@ import java.time.Duration;
 @NoArgsConstructor
 @AllArgsConstructor
 @Slf4j
+@Profile("solr")
 public class ConversationProperties {
 
 	public static final String SOURCE_CALLREC = "callrec";

@@ -8,6 +8,7 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -40,6 +41,7 @@ import static org.springframework.data.solr.core.query.AnyCriteria.any;
 import static org.springframework.data.solr.core.query.Criteria.where;
 
 //@RestController("/products")
+@Profile("solr")
 public class SolrRestController {
 
     private static final int DEFAULT_PAGE = 0;

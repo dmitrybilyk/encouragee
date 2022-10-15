@@ -11,6 +11,7 @@ import com.zoomint.encourage.model.search.ClientConversationSearch;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.solr.core.query.*;
@@ -30,6 +31,7 @@ import static org.springframework.data.solr.core.query.Criteria.where;
 import static org.springframework.util.StringUtils.hasText;
 
 @Slf4j
+@Profile("solr")
 public class ConversationSearchRepositoryImpl implements ConversationSearchRepositoryCustom {
 
 	private static final Criteria WILDCARD_CRITERIA = any();

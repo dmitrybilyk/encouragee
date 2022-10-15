@@ -9,6 +9,7 @@ import com.zoomint.encourage.model.scheduler.validation.ImportTaskCheck;
 import com.zoomint.encourage.model.search.ClientConversationSearch;
 import com.zoomint.encourage.model.search.SearchableMetadata;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import static java.net.HttpURLConnection.*;
@@ -18,6 +19,7 @@ import static org.apache.camel.LoggingLevel.ERROR;
 import static org.apache.camel.model.rest.RestParamType.*;
 
 @Component
+@Profile("solr")
 public class RestApiRouteBuilder extends RouteBuilder {
 	private static final String APPLICATION_JSON_UTF_8 = "application/json;charset=UTF-8";
 

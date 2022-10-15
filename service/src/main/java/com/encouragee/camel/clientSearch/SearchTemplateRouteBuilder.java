@@ -9,6 +9,7 @@ import com.zoomint.encourage.model.search.ClientConversationSearch;
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 import static org.apache.camel.util.toolbox.AggregationStrategies.flexible;
 
 @Component
+@Profile("solr")
 public class SearchTemplateRouteBuilder extends RouteBuilder {
 
 	public static final String URI_ENSURE_CONVERSATION_NOT_PROTECTED = "direct:ensureConversationNotProtected";

@@ -23,6 +23,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.SimpleStringCriteria;
 import org.springframework.stereotype.Component;
@@ -53,6 +54,7 @@ import static org.springframework.data.solr.core.query.AnyCriteria.any;
 import static org.springframework.data.solr.core.query.Criteria.where;
 
 @Component
+@Profile("solr")
 public class ClientConversationSearchConverter {
 
 	private static final Criteria WILDCARD_CRITERIA = any();

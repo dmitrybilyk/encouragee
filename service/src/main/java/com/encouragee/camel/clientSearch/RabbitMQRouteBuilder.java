@@ -11,6 +11,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.component.rabbitmq.RabbitMQConstants;
 import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
@@ -24,6 +25,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
  * Routes for RabbitMQ messages messages.
  */
 @Component
+@Profile("solr")
 public class RabbitMQRouteBuilder extends RouteBuilder {
 
 	public static final String URI_PURGE_QUEUES = "direct:rmqClearQueues";

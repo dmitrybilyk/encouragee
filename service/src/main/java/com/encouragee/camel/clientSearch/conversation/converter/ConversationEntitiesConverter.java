@@ -10,6 +10,7 @@ import com.zoomint.encourage.model.conversation.ConversationEvent;
 import com.zoomint.encourage.model.search.ClientConversationSearch;
 import org.apache.camel.Converter;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Stream;
@@ -20,6 +21,7 @@ import java.util.stream.Stream;
  */
 @Component
 @Converter
+@Profile("solr")
 public class ConversationEntitiesConverter {
 
 	@Converter

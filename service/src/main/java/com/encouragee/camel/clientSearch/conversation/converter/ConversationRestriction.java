@@ -8,6 +8,7 @@ import com.zoomint.encourage.common.model.user.Activity;
 import com.zoomint.keycloak.provider.api.dto.Role;
 import com.zoomint.keycloak.provider.api.dto.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -20,6 +21,7 @@ import static com.zoomint.encourage.model.conversation.ConversationEvent.*;
 
 @Component
 @Slf4j
+@Profile("solr")
 public class ConversationRestriction {
 
 	private static final Set<String> RELEVANT_ACTIVITIES = Set.of(

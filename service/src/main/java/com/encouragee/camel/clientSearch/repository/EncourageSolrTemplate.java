@@ -7,6 +7,7 @@ import org.apache.solr.client.solrj.SolrRequest;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.CursorMarkParams;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.Query;
 import org.springframework.util.Assert;
@@ -14,6 +15,7 @@ import org.springframework.util.Assert;
 import static java.util.Collections.emptyList;
 import static org.springframework.data.domain.Pageable.unpaged;
 
+@Profile("solr")
 public class EncourageSolrTemplate extends SolrTemplate {
 
 	public EncourageSolrTemplate(SolrClient solrClient) {

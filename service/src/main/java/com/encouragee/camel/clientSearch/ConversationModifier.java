@@ -5,6 +5,7 @@ import com.zoomint.encourage.common.model.label.Label;
 import com.zoomint.encourage.model.conversation.*;
 import com.zoomint.encourage.model.conversation.event.*;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -14,6 +15,7 @@ import java.util.stream.Stream;
 import static com.zoomint.encourage.model.conversation.ConversationEvent.EVENT_VERSIONING;
 
 @Component
+@Profile("solr")
 public class ConversationModifier {
 
 	/**
