@@ -530,20 +530,20 @@
                         <version>0.40.1</version>
                         <artifactId>docker-maven-plugin</artifactId>
                         <executions>
-                            <execution>
-                                <id>build-docker-image</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>push-docker-image</id>
-                                <phase>deploy</phase>
-                                <goals>
-                                    <goal>push</goal>
-                                </goals>
-                            </execution>
+<!--                            <execution>-->
+<!--                                <id>build-docker-image</id>-->
+<!--                                <phase>package</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>build</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                            <execution>-->
+<!--                                <id>push-docker-image</id>-->
+<!--                                <phase>deploy</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>push</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
                         </executions>
                         <configuration>
                             <images>
@@ -567,36 +567,36 @@
             <id>integration-docker</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>default</id>
-                                <configuration>
-                                    <!-- skip the default execution of integration tests - see profiles -->
-                                    <skip>true</skip>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>integration-docker</id>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                                <configuration>
-                                    <includes>
-                                        <include>**/*ITDB.java</include>
-                                        <include>**/*IT.java</include>
-                                    </includes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <!-- use original as spring-boot-maven-plugin repackages the jar into non-standard structure -->
-                            <classesDirectory>${project.build.directory}/${project.build.finalName}-original.jar
-                            </classesDirectory>
-                        </configuration>
-                    </plugin>
+<!--                    <plugin>-->
+<!--                        <artifactId>maven-failsafe-plugin</artifactId>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <id>default</id>-->
+<!--                                <configuration>-->
+<!--                                    &lt;!&ndash; skip the default execution of integration tests - see profiles &ndash;&gt;-->
+<!--                                    <skip>true</skip>-->
+<!--                                </configuration>-->
+<!--                            </execution>-->
+<!--                            <execution>-->
+<!--                                <id>integration-docker</id>-->
+<!--                                <goals>-->
+<!--                                    <goal>integration-test</goal>-->
+<!--                                    <goal>verify</goal>-->
+<!--                                </goals>-->
+<!--                                <configuration>-->
+<!--                                    <includes>-->
+<!--                                        <include>**/*ITDB.java</include>-->
+<!--                                        <include>**/*IT.java</include>-->
+<!--                                    </includes>-->
+<!--                                </configuration>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                        <configuration>-->
+<!--                            &lt;!&ndash; use original as spring-boot-maven-plugin repackages the jar into non-standard structure &ndash;&gt;-->
+<!--                            <classesDirectory>${project.build.directory}/${project.build.finalName}-original.jar-->
+<!--                            </classesDirectory>-->
+<!--                        </configuration>-->
+<!--                    </plugin>-->
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
@@ -623,21 +623,21 @@
                             <startParallel>true</startParallel>
                             <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
                             <images>
-                                <image>
-                                    <alias>solr</alias>
-                                    <!-- todo ENC-5168: release new parent with solr 7.6.0.15 -->
-                                    <name>zoomint/zoomint-solr-cloud:7.6.0.15</name>
-                                    <run>
-                                        <ports>
-                                            <port>+solr.host:solr.port:8983</port>
-                                            <port>+zk.host:zk.port:9983</port>
-                                        </ports>
-                                        <wait>
-                                            <log>Server Started @\d+ms</log>
-                                            <time>30000</time>
-                                        </wait>
-                                    </run>
-                                </image>
+<!--                                <image>-->
+<!--                                    <alias>solr</alias>-->
+<!--                                    &lt;!&ndash; todo ENC-5168: release new parent with solr 7.6.0.15 &ndash;&gt;-->
+<!--                                    <name>zoomint/zoomint-solr-cloud:7.6.0.15</name>-->
+<!--                                    <run>-->
+<!--                                        <ports>-->
+<!--                                            <port>+solr.host:solr.port:8983</port>-->
+<!--                                            <port>+zk.host:zk.port:9983</port>-->
+<!--                                        </ports>-->
+<!--                                        <wait>-->
+<!--                                            <log>Server Started @\d+ms</log>-->
+<!--                                            <time>30000</time>-->
+<!--                                        </wait>-->
+<!--                                    </run>-->
+<!--                                </image>-->
                                 <image>
                                     <alias>rabbitmq</alias>
                                     <name>rabbitmq:3.8.3-management-alpine</name>
@@ -667,76 +667,76 @@
                                         </wait>
                                     </run>
                                 </image>
-                                <image>
-                                    <alias>postgres</alias>
-                                    <name>postgres:9.6.3-alpine</name>
-                                    <run>
-                                        <network>
-                                            <mode>custom</mode>
-                                            <name>test-network</name>
-                                            <alias>postgres</alias>
-                                        </network>
-                                        <ports>
-                                            <port>+postgres.host:postgres.port:5432</port>
-                                        </ports>
-                                        <wait>
-                                            <log>PostgreSQL init process complete; ready for start up.</log>
-                                            <time>30000</time>
-                                        </wait>
-                                        <env>
-                                            <POSTGRES_USER>postgres
-                                            </POSTGRES_USER><!-- creates also database named test-->
-                                            <POSTGRES_PASSWORD>postgres</POSTGRES_PASSWORD>
-                                        </env>
-                                    </run>
-                                </image>
-                                <image>
-                                    <name>zoomint/keycloak:${keycloak-bom.version}
-                                    </name><!--todo version to one place.. or back to orchestrator? -->
-                                    <alias>keycloak</alias>
-                                    <run>
-                                        <network>
-                                            <mode>custom</mode>
-                                            <name>test-network</name>
-                                            <alias>keycloak</alias>
-                                        </network>
-                                        <ports>
-                                            <port>+keycloak.host:keycloak.port:8080</port>
-                                        </ports>
-                                        <dependsOn>
-                                            <container>postgres</container>
-                                            <container>rabbitmq</container>
-                                        </dependsOn>
-                                        <wait>
-                                            <log>Realm default registration finished</log>
-                                            <time>80000</time>
-                                        </wait>
-                                        <env>
-                                            <REALM_NAME>default</REALM_NAME>
-                                            <MASTER_CLIENT_NAME>client-management-app</MASTER_CLIENT_NAME>
-                                            <MASTER_CLIENT_SECRET>password</MASTER_CLIENT_SECRET>
-                                            <KEYCLOAK_USER>admin</KEYCLOAK_USER>
-                                            <KEYCLOAK_PASSWORD>password</KEYCLOAK_PASSWORD>
-                                            <DB_ADDR>postgres</DB_ADDR>
-                                            <DB_DATABASE>postgres</DB_DATABASE>
-                                            <DB_USER>postgres</DB_USER>
-                                            <DB_PASSWORD>postgres</DB_PASSWORD>
-                                            <DB_VENDOR>postgres</DB_VENDOR>
-                                            <DB_PORT>5432</DB_PORT>
-                                            <MESSAGE_QUEUE_HOST>rabbit</MESSAGE_QUEUE_HOST>
-                                            <MESSAGE_QUEUE_PORT>5672</MESSAGE_QUEUE_PORT>
-                                            <MESSAGE_QUEUE_USERNAME>callrec</MESSAGE_QUEUE_USERNAME>
-                                            <MESSAGE_QUEUE_PASSWORD>callrec</MESSAGE_QUEUE_PASSWORD>
-                                            <ROOT_LOGLEVEL>INFO</ROOT_LOGLEVEL>
-                                        </env>
-                                        <entrypoint>
-                                            <shell>/bin/bash -C /opt/jboss/tools/docker-entrypoint.sh
-                                                -Djavax.net.ssl.trustStore=/opt/jboss/keycloak/standalone/configuration/keystores/truststore.jks
-                                            </shell>
-                                        </entrypoint>
-                                        <privileged>true</privileged>
-                                    </run>
-                                </image>
+<!--                                <image>-->
+<!--                                    <alias>postgres</alias>-->
+<!--                                    <name>postgres:9.6.3-alpine</name>-->
+<!--                                    <run>-->
+<!--                                        <network>-->
+<!--                                            <mode>custom</mode>-->
+<!--                                            <name>test-network</name>-->
+<!--                                            <alias>postgres</alias>-->
+<!--                                        </network>-->
+<!--                                        <ports>-->
+<!--                                            <port>+postgres.host:postgres.port:5432</port>-->
+<!--                                        </ports>-->
+<!--                                        <wait>-->
+<!--                                            <log>PostgreSQL init process complete; ready for start up.</log>-->
+<!--                                            <time>30000</time>-->
+<!--                                        </wait>-->
+<!--                                        <env>-->
+<!--                                            <POSTGRES_USER>postgres-->
+<!--                                            </POSTGRES_USER>&lt;!&ndash; creates also database named test&ndash;&gt;-->
+<!--                                            <POSTGRES_PASSWORD>postgres</POSTGRES_PASSWORD>-->
+<!--                                        </env>-->
+<!--                                    </run>-->
+<!--                                </image>-->
+<!--                                <image>-->
+<!--                                    <name>zoomint/keycloak:${keycloak-bom.version}-->
+<!--                                    </name>&lt;!&ndash;todo version to one place.. or back to orchestrator? &ndash;&gt;-->
+<!--                                    <alias>keycloak</alias>-->
+<!--                                    <run>-->
+<!--                                        <network>-->
+<!--                                            <mode>custom</mode>-->
+<!--                                            <name>test-network</name>-->
+<!--                                            <alias>keycloak</alias>-->
+<!--                                        </network>-->
+<!--                                        <ports>-->
+<!--                                            <port>+keycloak.host:keycloak.port:8080</port>-->
+<!--                                        </ports>-->
+<!--                                        <dependsOn>-->
+<!--                                            <container>postgres</container>-->
+<!--                                            <container>rabbitmq</container>-->
+<!--                                        </dependsOn>-->
+<!--                                        <wait>-->
+<!--                                            <log>Realm default registration finished</log>-->
+<!--                                            <time>80000</time>-->
+<!--                                        </wait>-->
+<!--                                        <env>-->
+<!--                                            <REALM_NAME>default</REALM_NAME>-->
+<!--                                            <MASTER_CLIENT_NAME>client-management-app</MASTER_CLIENT_NAME>-->
+<!--                                            <MASTER_CLIENT_SECRET>password</MASTER_CLIENT_SECRET>-->
+<!--                                            <KEYCLOAK_USER>admin</KEYCLOAK_USER>-->
+<!--                                            <KEYCLOAK_PASSWORD>password</KEYCLOAK_PASSWORD>-->
+<!--                                            <DB_ADDR>postgres</DB_ADDR>-->
+<!--                                            <DB_DATABASE>postgres</DB_DATABASE>-->
+<!--                                            <DB_USER>postgres</DB_USER>-->
+<!--                                            <DB_PASSWORD>postgres</DB_PASSWORD>-->
+<!--                                            <DB_VENDOR>postgres</DB_VENDOR>-->
+<!--                                            <DB_PORT>5432</DB_PORT>-->
+<!--                                            <MESSAGE_QUEUE_HOST>rabbit</MESSAGE_QUEUE_HOST>-->
+<!--                                            <MESSAGE_QUEUE_PORT>5672</MESSAGE_QUEUE_PORT>-->
+<!--                                            <MESSAGE_QUEUE_USERNAME>callrec</MESSAGE_QUEUE_USERNAME>-->
+<!--                                            <MESSAGE_QUEUE_PASSWORD>callrec</MESSAGE_QUEUE_PASSWORD>-->
+<!--                                            <ROOT_LOGLEVEL>INFO</ROOT_LOGLEVEL>-->
+<!--                                        </env>-->
+<!--                                        <entrypoint>-->
+<!--                                            <shell>/bin/bash -C /opt/jboss/tools/docker-entrypoint.sh-->
+<!--                                                -Djavax.net.ssl.trustStore=/opt/jboss/keycloak/standalone/configuration/keystores/truststore.jks-->
+<!--                                            </shell>-->
+<!--                                        </entrypoint>-->
+<!--                                        <privileged>true</privileged>-->
+<!--                                    </run>-->
+<!--                                </image>-->
                             </images>
                         </configuration>
                     </plugin>
@@ -756,12 +756,12 @@
                                 <phase>validate</phase>
                                 <goals>
                                     <goal>start</goal>
-<!--                                    <goal>start</goal>-->
+<!--                                    <goal>run</goal>-->
                                 </goals>
                             </execution>
                             <execution>
                                 <id>dockers-stop</id>
-                                <phase>post-clean</phase>
+<!--                                <phase>post-clean</phase>-->
                                 <goals>
                                     <goal>stop</goal>
                                 </goals>
@@ -775,7 +775,7 @@
                             <images>
                                 <image>
                                     <alias>rabbitmq</alias>
-                                    <name>rabbitmq:3.8.3-management-alpine</name>
+                                    <name>rabbitmq:management</name>
                                     <run>
                                         <network>
                                             <mode>custom</mode>
@@ -792,9 +792,9 @@
                                             </RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS>
                                         </env>
                                         <ports>
-                                            <port>+rabbit.host:rabbit.port:5673</port>
+                                            <port>+rabbit.host:5673:5672</port>
                                             <!-- the admin port is useful for debugging -->
-                                            <port>+rabbit.host:rabbit.admin.port:15673</port>
+                                            <port>+rabbit.host:15673:15672</port>
                                         </ports>
                                         <wait>
                                             <log>Server startup complete</log>
