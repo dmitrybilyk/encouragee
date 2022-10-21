@@ -750,6 +750,7 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.40.2</version>
                         <executions>
                             <execution>
                                 <id>dockers-start</id>
@@ -777,6 +778,7 @@
                                     <alias>rabbitmq</alias>
                                     <name>rabbitmq:management</name>
                                     <run>
+
                                         <network>
                                             <mode>custom</mode>
                                             <name>rabbit-network</name>

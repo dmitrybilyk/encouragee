@@ -39,6 +39,7 @@ GET http://localhost:8107/save/337773/333588577333
 ###
 GET http://localhost:8107/save/dimaId/dimavalue
 
+#rest
 ###
 http://localhost:8107/entity/all
 

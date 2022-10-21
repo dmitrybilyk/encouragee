@@ -14,10 +14,12 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import static org.springframework.amqp.core.BindingBuilder.bind;
 
 @Configuration
+@Profile("rabbit")
 @ComponentScan(basePackages = {"com.encouragee.controller", "com.encouragee.messaging", "com.encouragee.camel",
         "com.encouragee.rabbit.controller"})
 public class RabbitMQConfiguration {

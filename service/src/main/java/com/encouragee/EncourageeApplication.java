@@ -55,13 +55,15 @@ import static org.springframework.amqp.core.BindingBuilder.bind;
         SolrRepositoriesAutoConfiguration.class})
 @ComponentScan(basePackageClasses = {EncourageeApplication.class, BuildProperties.class})
 @PropertySource("build.properties")
-@Import({RabbitAutoConfiguration.class,
-//        WebSecurityConfig.class,
-        RabbitMQConfiguration.class,
-//        KafkaTopicConfig.class,
-//        KafkaConsumerConfig.class,
-//        KafkaProducerConfig.class
-})
+//rabbit profile
+//@Import({RabbitAutoConfiguration.class,
+////        WebSecurityConfig.class,
+//        RabbitMQConfiguration.class,
+////        KafkaTopicConfig.class,
+////        KafkaConsumerConfig.class,
+////        KafkaProducerConfig.class
+//})
+//rest profile - no import is needed
 //@EnableSolrRepositories(repositoryBaseClass = DefaultSolrRepository.class, basePackageClasses = ConversationSearchRepository.class)
 //@EnableAutoConfiguration(exclude = {SolrAutoConfiguration.class, KeycloakClientConfiguration.class})
 public class EncourageeApplication {

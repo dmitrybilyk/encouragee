@@ -1,6 +1,7 @@
 package com.encouragee.controller;
 
 import com.encouragee.model.GenericEntity;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController("/entities")
+@Profile("rest")
 public class GenericEntityController {
     private final List<GenericEntity> entityList = List.of(new GenericEntity(1L));
 
