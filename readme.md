@@ -40,3 +40,6 @@ kubectl port-forward kubernetes-rabbitmq-0 15672:15672
 ### Run with rabbit profile
 ~/dev/projects/others/encouragee/service$ 
 mvn spring-boot:run -Dspring-boot.run.profiles=rabbit -Prabbit
+
+### Run with solr profile
+mvn spring-boot:run -Dspring-boot.run.profiles=solr -Dkeycloak-client-token-provider.serverUrl=https://10.17.1.58/auth/ -D keycloak-client-token-provider.realm=default -Dkeycloak-client-token-provider.master-client-secret=edc05414-47c2-48d4-a3ba-d1c7505ca309

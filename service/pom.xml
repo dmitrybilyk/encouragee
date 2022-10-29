@@ -750,26 +750,24 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
-                        <version>0.40.2</version>
+                        <version>0.40.1</version>
                         <executions>
                             <execution>
                                 <id>dockers-start</id>
                                 <phase>validate</phase>
                                 <goals>
                                     <goal>start</goal>
-<!--                                    <goal>run</goal>-->
                                 </goals>
                             </execution>
                             <execution>
                                 <id>dockers-stop</id>
-<!--                                <phase>post-clean</phase>-->
+                                <phase>clean</phase>
                                 <goals>
                                     <goal>stop</goal>
                                 </goals>
                             </execution>
                         </executions>
                         <configuration>
-<!--                            <portPropertyFile>${docker.ports.file}</portPropertyFile>-->
                             <verbose>true</verbose>
                             <startParallel>true</startParallel>
                             <autoCreateCustomNetworks>true</autoCreateCustomNetworks>

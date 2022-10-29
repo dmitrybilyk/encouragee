@@ -7,14 +7,15 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.amqp.support.converter.SimpleMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.encouragee.EncourageeApplication.*;
-import static com.encouragee.rabbit.configuration.RabbitMQConfiguration.*;
+import static com.encouragee.rabbit.RabbitMQConfiguration.*;
 
 @RestController("/rabbit")
+@Profile("rabbit")
 public class RabbitRestController {
 
     private static String ROUTING_KEY_USER_IMPORTANT_WARN = "user.important.warn";

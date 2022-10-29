@@ -95,11 +95,11 @@ enc-conversations:
 #  permissions:
 #    realm-management:
 #      - "view-users"
-tracing:
-  reporter:
-    rabbitAddress: ${spring.rabbitmq.addresses}
-    rabbitUsername: ${spring.rabbitmq.username}
-    rabbitPassword: ${spring.rabbitmq.password}
+#tracing:
+#  reporter:
+#    rabbitAddress: ${spring.rabbitmq.addresses}
+#    rabbitUsername: ${spring.rabbitmq.username}
+#    rabbitPassword: ${spring.rabbitmq.password}
 
 ---
 
@@ -107,37 +107,38 @@ spring:
   profiles: rest
 
 ---
-#
-#spring:
-#  profiles: solr
-##    Conversations
-#  application:
-#    name: @process.name@
-#  jmx:
-#    enabled: false
-#  jackson:
-#    serialization:
-#      write-durations-as-timestamps: false
-#    deserialization:
-#      adjust-dates-to-context-time-zone: false
-#      fail-on-unknown-properties: false
-#    default-property-inclusion: non_null
-#    mapper:
-#      default-view-inclusion: true
-#  rabbitmq:
-#    host: localhost
-#    port: 5672
-#    username: callrec
-#    password: callrec
-#  #    publisher-confirms: true
-#  security:
-#    user:
-#      name: ${security.user.name}
-#      password: ${security.user.password}
-#      roles: 'ACTUATOR'
-#  main:
-#    allow-bean-definition-overriding: true
 
+spring:
+  profiles: solr
+  application:
+    name: @process.name@
+  jmx:
+    enabled: false
+  jackson:
+    serialization:
+      write-durations-as-timestamps: false
+    deserialization:
+      adjust-dates-to-context-time-zone: false
+      fail-on-unknown-properties: false
+    default-property-inclusion: non_null
+    mapper:
+      default-view-inclusion: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: callrec
+    password: callrec
+  main:
+    allow-bean-definition-overriding: true
+  keycloak-client-token-provider:
+    client-id: "encourage-conversations-app"
+    application-name: "QM - shared roles"
+    scope-roles:
+      realm-management:
+        - "view-users"
+    permissions:
+      realm-management:
+        - "view-users"
 ---
 
 enc-conversations:
