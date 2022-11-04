@@ -50,7 +50,7 @@ services:
       - KEYCLOAK_PORT=8080
       - KEYCLOAK_PROXY_PORT=8080
       - MESSAGE_QUEUE_HOST=rabbitmq-kc
-    container_name: KC-Proxy
+    container_name: zoom_kc_proxy
     hostname: kcproxy
     depends_on:
       - rabbitmq-kc
@@ -85,6 +85,8 @@ services:
     ports:
       - '9983:9983'
       - '8983:8983'
+    volumes:
+      - keycloak_solrdata:/var/solr
     networks:
       - keycloak-network
     image: 'zoomint/zoomint-solr-cloud:7.6.0.15'
@@ -101,10 +103,31 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata7:/var/lib/postgresql/data
+#  conversations:
+#    ports:
+#      - 8107:8107
+#    container_name: conversations-svc
+#    hostname: conversations
+#    image: 'localhost:5000/conv:1.1.5'
+#    environment:
+#      - keycloak-client-token-provider.serverUrl=http://zoom_keycloak:8080/auth/
+#      - keycloak-client-token-provider.realm=default
+#      - keycloak-client-token-provider.master-client-secret=password
+#      - spring.rabbitmq.host=rabbitmq
+#      - enc-conversations.solr.zookeeper=zoom_solr:9983
+#      - host.docker.internal
+#    networks:
+#      - keycloak-network
+#    depends_on:
+#      - rabbitmq
+#      - kcproxy
+#      - keycloak
+#      - postgres
 volumes:
-  pgdata:
+  pgdata7:
     external: true
+  keycloak_solrdata:
 networks:
   keycloak-network:
     external: true
