@@ -2,8 +2,8 @@ services:
   keycloak:
     ports:
       - '18080:8080'
-    networks:
-      - keycloak-network
+#    networks:
+#      - keycloak-network
     environment:
       - DB_DATABASE=keycloak
       - DB_PASSWORD=postgres
@@ -43,8 +43,8 @@ services:
   kcproxy:
     ports:
       - '18081:8080'
-    networks:
-      - keycloak-network
+#    networks:
+#      - keycloak-network
     environment:
       - KEYCLOAK_HOST=keycloak
       - KEYCLOAK_PORT=8080
@@ -61,8 +61,8 @@ services:
     ports:
       - '15672:15672'
       - '5672:5672'
-    networks:
-      - keycloak-network
+#    networks:
+#      - keycloak-network
     environment:
       - RABBITMQ_DEFAULT_PASS=callrec
       - RABBITMQ_DEFAULT_USER=callrec
@@ -73,8 +73,8 @@ services:
     ports:
       - '15673:15672'
       - '5673:5672'
-    networks:
-      - keycloak-network
+#    networks:
+#      - keycloak-network
     environment:
       - RABBITMQ_DEFAULT_PASS=guest
       - RABBITMQ_DEFAULT_USER=guest
@@ -86,9 +86,9 @@ services:
       - '9983:9983'
       - '8983:8983'
     volumes:
-      - keycloak_solrdata:/var/solr
-    networks:
-      - keycloak-network
+      - solrdata:/opt/solr/server/solr
+#    networks:
+#      - keycloak-network
     image: 'zoomint/zoomint-solr-cloud:7.6.0.15'
     container_name: 'zoom_solr'
   postgres:
@@ -96,8 +96,8 @@ services:
     image: 'postgres:9.6'
     ports:
       - '5432:5432'
-    networks:
-      - keycloak-network
+#    networks:
+#      - keycloak-network
     environment:
       - POSTGRES_DATABASE=postgres
       - POSTGRES_USER=postgres
@@ -109,16 +109,60 @@ services:
 #      - 8107:8107
 #    container_name: conversations-svc
 #    hostname: conversations
-#    image: 'localhost:5000/conv:1.1.5'
+#    image: 'localhost:5000/conv:1.2.3'
 #    environment:
 #      - keycloak-client-token-provider.serverUrl=http://zoom_keycloak:8080/auth/
 #      - keycloak-client-token-provider.realm=default
 #      - keycloak-client-token-provider.master-client-secret=password
 #      - spring.rabbitmq.host=rabbitmq
 #      - enc-conversations.solr.zookeeper=zoom_solr:9983
-#      - host.docker.internal
-#    networks:
-#      - keycloak-network
+#      - enc-conversations.solr-configset-path=/app/config/solr-config-set/conversation
+##      - host.docker.internal
+##    networks:
+##      - keycloak-network
+#    depends_on:
+#      - rabbitmq
+#      - kcproxy
+#      - keycloak
+#      - postgres
+#  framework:
+#    ports:
+#      - 8102:8102
+#    container_name: framework-svc
+#    hostname: framework
+#    image: 'localhost:5000/framework:1.1.1'
+#    environment:
+#      - keycloak-client-token-provider.serverUrl=http://zoom_keycloak:8080/auth/
+#      - keycloak-client-token-provider.realm=default
+#      - keycloak-client-token-provider.master-client-secret=password
+#      - spring.rabbitmq.host=rabbitmq
+#      - enc-conversations.solr.zookeeper=zoom_solr:9983
+#      - enc-conversations.solr-configset-path=/app/config/solr-config-set/conversation
+##      - host.docker.internal
+#    #    networks:
+#    #      - keycloak-network
+#    depends_on:
+#      - rabbitmq
+#      - kcproxy
+#      - keycloak
+#      - postgres
+#  data:
+#    ports:
+#      - 8300:8300
+#    container_name: data-svc
+#    hostname: data
+#    image: 'localhost:5000/data:1.1.4'
+#    environment:
+#      - keycloak-client-token-provider.serverUrl=http://zoom_keycloak:8080/auth/
+#      - keycloak-client-token-provider.realm=default
+#      - keycloak-client-token-provider.master-client-secret=password
+#      - spring.rabbitmq.host=rabbitmq
+#      - enc-conversations.solr.zookeeper=zoom_solr:9983
+#      - enc-conversations.solr-configset-path=/app/config/solr-config-set/conversation
+#      - flyway.url=jdbc:postgresql://zoom_postgres:5432/encourage
+##      - host.docker.internal
+#    #    networks:
+#    #      - keycloak-network
 #    depends_on:
 #      - rabbitmq
 #      - kcproxy
@@ -127,10 +171,11 @@ services:
 volumes:
   pgdata7:
     external: true
-  keycloak_solrdata:
-networks:
-  keycloak-network:
+  solrdata:
     external: true
+#networks:
+#  keycloak-network:
+#    external: true
 
 # keycloak
 #  docker run --rm -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=password -it --hostname zoom-keycloak -p 443:443  localhost:5000/zoomint/keycloak:16.1.0-19.6.0
