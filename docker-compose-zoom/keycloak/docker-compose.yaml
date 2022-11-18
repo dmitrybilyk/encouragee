@@ -85,8 +85,8 @@ services:
     ports:
       - '9983:9983'
       - '8983:8983'
-    volumes:
-      - solrdata:/opt/solr/server/solr
+#    volumes:
+#      - solrdata:/opt/solr/server/solr
 #    networks:
 #      - keycloak-network
     image: 'zoomint/zoomint-solr-cloud:7.6.0.15'
@@ -103,7 +103,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
-      - pgdata7:/var/lib/postgresql/data
+      - pgdata_correct:/var/lib/postgresql/data
 #  conversations:
 #    ports:
 #      - 8107:8107
@@ -169,10 +169,10 @@ services:
 #      - keycloak
 #      - postgres
 volumes:
-  pgdata7:
+  pgdata_correct:
     external: true
-  solrdata:
-    external: true
+#  solrdata:
+#    external: true
 #networks:
 #  keycloak-network:
 #    external: true
