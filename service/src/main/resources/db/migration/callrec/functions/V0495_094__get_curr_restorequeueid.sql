@@ -1,0 +1,13 @@
+-- CREATE FUNCTION GET_CURR_RESTOREQUEUEID {{{
+CREATE OR REPLACE FUNCTION callrec.GET_CURR_RESTOREQUEUEID()
+  RETURNS callrec.restore_queue.id%TYPE
+  VOLATILE
+  SECURITY DEFINER
+  LANGUAGE plpgsql
+  AS '
+    BEGIN
+      RETURN callrec.GET_CURR__ID(''seq_restore_queue'');
+    END;
+  ';
+GRANT EXECUTE ON FUNCTION callrec.GET_CURR_RESTOREQUEUEID() TO callrecgrp;
+-- }}}

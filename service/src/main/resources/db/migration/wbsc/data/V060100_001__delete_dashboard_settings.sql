@@ -1,0 +1,2 @@
+DELETE FROM wbsc.user_settings WHERE key = 'DASHBOARD_CONFIG' OR key = 'DASHBOARD_ENABLED';
+DELETE FROM wbsc.appoptions WHERE key = 'DASHBOARD_WIDGET_LIMIT' OR key = 'DASHBOARD';

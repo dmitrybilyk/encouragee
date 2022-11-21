@@ -1,0 +1,1 @@
+INSERT INTO wbsc.rights (name) VALUES ('SURVEY_PLANS');

@@ -1,0 +1,1 @@
+DELETE FROM wbsc.appoptions WHERE key = 'AGENT_EXTENSION_LENGTH';

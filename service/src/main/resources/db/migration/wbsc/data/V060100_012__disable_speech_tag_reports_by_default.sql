@@ -1,0 +1,4 @@
+update wbsc.appoptions set value ='NavigationPanel_logiReportNode_speechTagsOccurrence,
+	NavigationPanel_logiReportNode_speechTagsOccurrenceExtData,NavigationPanel_logiReportNode_speechTagsOccurrenceAgents,
+  NavigationPanel_logiReportNode_speechTagsOccurrenceGroups,NavigationPanel_logiReportNode_speechTagsOccurrenceDuration'
+where key = 'HIDDEN_NAVIGATION_ITEMS';

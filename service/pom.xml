@@ -69,19 +69,19 @@
             <groupId>com.zoomint.zoom-boot-starter</groupId>
             <artifactId>zoom-boot-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.zoomint.keycloak</groupId>
-            <artifactId>keycloak-client-boot-starter</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.zoomint.keycloak</groupId>-->
+<!--            <artifactId>keycloak-client-boot-starter</artifactId>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>com.zoomint.keycloak</groupId>
-            <artifactId>keycloak-api-provider-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.zoomint.keycloak</groupId>
-            <artifactId>keycloak-api-provider-dto</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.zoomint.keycloak</groupId>-->
+<!--            <artifactId>keycloak-api-provider-client</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.zoomint.keycloak</groupId>-->
+<!--            <artifactId>keycloak-api-provider-dto</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>io.prometheus</groupId>
@@ -301,6 +301,20 @@
 <!--            <artifactId>reactor-netty</artifactId>-->
 <!--            <version>1.0.22</version>-->
 <!--        </dependency>-->
+
+        <!-- DB -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoomint.support</groupId>
+            <artifactId>flyway-support</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>

@@ -1,0 +1,15 @@
+INSERT INTO callrec.extdata_map values (1);
+INSERT INTO callrec.extdata_map values (2);
+INSERT INTO callrec.extdata_map values (3);
+INSERT INTO callrec.extdata_map values (4);
+INSERT INTO callrec.extdata_map values (5);
+INSERT INTO callrec.extdata_map values (6);
+INSERT INTO callrec.extdata_map values (7);
+INSERT INTO callrec.extdata_map values (8);
+INSERT INTO callrec.extdata_map values (9);
+INSERT INTO callrec.extdata_map values (10);
+INSERT INTO callrec.extdata_map values (11);
+INSERT INTO callrec.extdata_map values (12);
+INSERT INTO callrec.extdata_map values (13);
+INSERT INTO callrec.extdata_map values (14);
+INSERT INTO callrec.extdata_map values (15);

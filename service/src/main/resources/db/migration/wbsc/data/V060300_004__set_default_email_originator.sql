@@ -1,0 +1,1 @@
+INSERT INTO wbsc.appoptions (key, value, comment, company) values ( 'NAME_OF_AUTOMATIC_EMAIL', 'noreply', NULL, (select companyid from wbsc.companies where display_name='DEFAULT'));

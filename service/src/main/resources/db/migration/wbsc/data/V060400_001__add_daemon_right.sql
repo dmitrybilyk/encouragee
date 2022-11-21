@@ -1,0 +1,1 @@
+INSERT INTO wbsc.rights (name) VALUES ('MANAGE_DAEMON_USERS');

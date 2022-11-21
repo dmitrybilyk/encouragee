@@ -1,0 +1,16 @@
+-- CREATE DATE_PART {{{
+-- DATE_PART() version that works with INT typed unix timestamps
+CREATE OR REPLACE FUNCTION callrec.DATE_PART(TEXT, INTEGER)
+  RETURNS DOUBLE PRECISION
+  IMMUTABLE
+  RETURNS NULL ON NULL INPUT
+  LANGUAGE plpgsql
+  AS '
+    BEGIN
+      RETURN pg_catalog.DATE_PART($1, callrec.UNIXTSTAMP_TO_TSTAMP($2));
+    END;
+  ';
+
+GRANT EXECUTE ON FUNCTION callrec.DATE_PART(TEXT, INTEGER) TO GROUP callrecgrp;
+-- }}}
+

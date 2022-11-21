@@ -1,0 +1,1 @@
+INSERT INTO wbsc.database ( name, configuration_equal_group, dbtype, encryption_type, connection, connection_login, connection_password, company) VALUES ( 'UCCX', 'wbsc-uccx', 'UCCX', 'PLAIN', NULL, NULL, NULL, (select companyid from wbsc.companies where display_name='DEFAULT'));

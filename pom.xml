@@ -25,7 +25,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <springboot.version>2.1.16.RELEASE</springboot.version>
         <encourage-common.version>20.0.15</encourage-common.version>
-        <encourage-data.version>20.2.17</encourage-data.version>
+        <encourage-data.version>20.2.23-SNAPSHOT</encourage-data.version>
         <!-- Apache Camel -->
         <camel.version>2.25.4</camel.version>
         <pmdEnabled>false</pmdEnabled>

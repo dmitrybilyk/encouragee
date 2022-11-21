@@ -1,0 +1,20 @@
+-- CREATE FUNCTION BASENAME {{{
+CREATE OR REPLACE FUNCTION callrec.BASENAME(VARCHAR)
+  RETURNS VARCHAR
+  IMMUTABLE
+  RETURNS NULL ON NULL INPUT
+  LANGUAGE plpgsql
+  AS '
+    DECLARE
+      _path ALIAS FOR $1;
+    BEGIN
+      IF 0 = POSITION(''/'' IN _path) THEN
+        RETURN _path;
+      END IF;
+      RETURN SUBSTRING(_path FROM ''/([^/]*)$'');
+    END;
+  ';
+
+GRANT EXECUTE ON FUNCTION callrec.BASENAME(VARCHAR) TO GROUP callrecgrp;
+-- }}}
+

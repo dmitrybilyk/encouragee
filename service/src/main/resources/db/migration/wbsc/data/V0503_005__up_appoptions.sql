@@ -1,0 +1,2 @@
+INSERT INTO wbsc.appoptions (key, value, comment, company) values ( 'REST_API_UNIVERSAL_PLAYER', '/universal-communicator/universalplayerapi/api', NULL, (select companyid from wbsc.companies where display_name='DEFAULT'));
+INSERT INTO wbsc.appoptions (key, value, comment, company) values ( 'APPLET_COMMUNICATION_CHANNEL', 'AUTODETECT', NULL, (select companyid from wbsc.companies where display_name='DEFAULT'));

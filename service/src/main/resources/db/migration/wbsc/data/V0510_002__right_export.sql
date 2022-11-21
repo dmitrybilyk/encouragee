@@ -1,0 +1,3 @@
+-- SC-4857
+INSERT INTO wbsc.rights (name) VALUES ('INTERACTIONS_EXPORT_MEDIA');
+

@@ -1,0 +1,15 @@
+-- CREATE FUNCTION GET_NEXT_RESTOREQUEUEID {{{
+CREATE OR REPLACE FUNCTION callrec.GET_NEXT_RESTOREQUEUEID()
+  RETURNS callrec.restore_queue.id%TYPE
+  VOLATILE
+  SECURITY DEFINER
+  LANGUAGE plpgsql
+  AS '
+    BEGIN
+      RETURN callrec.GET_NEXT__ID(''seq_restore_queue'');
+    END;
+  ';
+
+GRANT EXECUTE ON FUNCTION callrec.GET_NEXT_RESTOREQUEUEID() TO GROUP callrecgrp;
+-- }}}
+

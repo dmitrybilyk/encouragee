@@ -1,0 +1,1 @@
+DELETE FROM wbsc.rights  WHERE name = 'VIEW_DATA_WAREHOUSE_REPORTS';

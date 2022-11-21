@@ -1,0 +1,15 @@
+-- CREATE FUNCTION GET_NEXT_CALLID {{{
+CREATE OR REPLACE FUNCTION callrec.GET_NEXT_CALLID()
+  RETURNS callrec.calls.id%TYPE
+  VOLATILE
+  SECURITY DEFINER
+  LANGUAGE plpgsql
+  AS '
+    BEGIN
+      RETURN callrec.GET_NEXT__ID(''seq_calls'');
+    END;
+  ';
+
+GRANT EXECUTE ON FUNCTION callrec.GET_NEXT_CALLID() TO GROUP callrecgrp;
+-- }}}
+

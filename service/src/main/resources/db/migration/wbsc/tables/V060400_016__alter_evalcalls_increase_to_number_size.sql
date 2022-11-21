@@ -1,0 +1,1 @@
+ALTER TABLE wbsc.evalcalls ALTER COLUMN to_number TYPE VARCHAR(1024);

@@ -1,0 +1,2 @@
+ALTER DOMAIN wbsc.criteria_call_directions_domain DROP CONSTRAINT criteria_call_directions_switch;
+ALTER DOMAIN wbsc.criteria_call_directions_domain ADD CONSTRAINT "criteria_call_directions_switch" CHECK (((VALUE)::text = ANY ((ARRAY['INCOMING'::character varying, 'OUTGOING'::character varying, 'BOTH'::character varying, 'INTERNAL'::character varying, 'ALL'::character varying, 'UNKNOWN'::character varying, 'NOT_INTERNAL'::character varying])::text[])));

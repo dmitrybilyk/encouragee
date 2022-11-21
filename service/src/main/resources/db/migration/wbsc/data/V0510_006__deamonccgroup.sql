@@ -1,0 +1,1 @@
+INSERT INTO wbsc.user_canevaluate_ccgroup (userid, ccgroupid) VALUES ((select userid from wbsc.sc_users where surname='ipccimporterdaemon' and login='ipccimporterdaemon'), (select ccgroupid from wbsc.ccgroups where parentid is null));

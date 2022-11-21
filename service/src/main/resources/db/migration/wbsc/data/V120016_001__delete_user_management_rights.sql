@@ -1,0 +1,4 @@
+DELETE FROM wbsc.rights WHERE name = 'MANAGE_DAEMON_USERS';
+DELETE FROM wbsc.rights WHERE name = 'RESET_TEAM_PASSWORD';
+DELETE FROM wbsc.rights WHERE name = 'RESET_ALL_PASSWORD';
+DELETE FROM wbsc.rights WHERE name = 'MANAGE_ROLES';

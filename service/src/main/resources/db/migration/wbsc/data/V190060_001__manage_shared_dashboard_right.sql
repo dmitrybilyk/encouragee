@@ -1,0 +1,1 @@
+DELETE FROM wbsc.rights WHERE name = 'MANAGE_SHARED_DASHBOARD';

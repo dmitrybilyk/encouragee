@@ -1,0 +1,15 @@
+-- CREATE FUNCTION GET_NEXT_FILTERID {{{
+CREATE OR REPLACE FUNCTION callrec.GET_NEXT_FILTERID()
+  RETURNS callrec.filters.id%TYPE
+  VOLATILE
+  SECURITY DEFINER
+  LANGUAGE plpgsql
+  AS '
+    BEGIN
+      RETURN callrec.GET_NEXT__ID(''seq_filters'');
+    END;
+  ';
+
+GRANT EXECUTE ON FUNCTION callrec.GET_NEXT_FILTERID() TO GROUP callrecgrp;
+-- }}}
+

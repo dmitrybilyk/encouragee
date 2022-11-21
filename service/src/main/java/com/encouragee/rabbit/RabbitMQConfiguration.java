@@ -4,7 +4,7 @@ import com.encouragee.messaging.Receiver;
 import com.encouragee.rabbit.SimpleMessage;
 import com.encouragee.rabbit.model.Conversation;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zoomint.keycloak.KeycloakClientConfiguration;
+//import com.zoomint.keycloak.KeycloakClientConfiguration;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -25,7 +25,9 @@ import static org.springframework.amqp.core.BindingBuilder.bind;
 
 @Configuration
 @Profile("rabbit")
-@EnableAutoConfiguration(exclude = {SolrAutoConfiguration.class, KeycloakClientConfiguration.class,
+@EnableAutoConfiguration(exclude = {SolrAutoConfiguration.class
+        ,
+//        KeycloakClientConfiguration.class,
         SolrRepositoriesAutoConfiguration.class, SecurityAutoConfiguration.class})
 @ComponentScan(basePackages = {"com.encouragee.controller", "com.encouragee.messaging", "com.encouragee.camel",
         "com.encouragee.rabbit.controller"})

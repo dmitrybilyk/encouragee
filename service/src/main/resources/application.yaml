@@ -109,6 +109,19 @@ spring:
 ---
 
 spring:
+  profiles: flyway
+  flyway:
+    user: postgres
+    password: postgres
+    table: SCHEMA_UPDATES
+    url: jdbc:postgresql://localhost:5432/callrec
+    validate-on-migrate: false
+    out-of-order: true
+    schemas: callrec
+
+---
+
+spring:
   profiles: solr
   application:
     name: @process.name@

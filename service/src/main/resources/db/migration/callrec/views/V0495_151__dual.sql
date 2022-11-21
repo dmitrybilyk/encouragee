@@ -1,0 +1,2 @@
+CREATE OR REPLACE VIEW public.dual
+as SELECT 1;

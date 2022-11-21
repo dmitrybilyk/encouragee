@@ -166,8 +166,6 @@ public abstract class ITBase extends AbstractTestNGSpringContextTests {
 	protected void setServerTimestamp(ZonedDateTime serverTimestamp) {
 		dataAccess.givenThat(get(urlPathEqualTo("/v3/administration/settings"))
 				.willReturn(okJson(toJson(EncourageSettings.builder()
-						.serverTimestamp(serverTimestamp)
-						.serverTimezone(serverTimestamp.getZone())
 						.build()))));
 	}
 

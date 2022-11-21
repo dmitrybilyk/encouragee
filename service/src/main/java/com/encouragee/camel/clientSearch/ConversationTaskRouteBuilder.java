@@ -119,7 +119,7 @@ public class ConversationTaskRouteBuilder extends RouteBuilder {
 	private ConversationUpdate findBatchToDelete(Exchange exchange) {
 		ImportTask task = exchange.getProperty(TASK, ImportTask.class);
 		ImportReport status = exchange.getProperty(TASK_STATUS, ImportReport.class);
-		ZonedDateTime now = exchange.getProperty("adminSettings", EncourageSettings.class).getServerTimestamp();
+		ZonedDateTime now = ZonedDateTime.now();
 		status.setTimestamp(now.toInstant());
 
 		try {

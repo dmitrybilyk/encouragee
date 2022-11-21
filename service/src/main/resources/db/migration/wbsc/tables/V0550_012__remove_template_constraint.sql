@@ -1,0 +1,1 @@
+ALTER TABLE wbsc.templates DROP CONSTRAINT sc_template_name;

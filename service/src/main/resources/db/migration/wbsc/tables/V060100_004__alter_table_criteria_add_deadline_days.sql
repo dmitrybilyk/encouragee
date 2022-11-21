@@ -1,0 +1,1 @@
+ALTER TABLE wbsc.criteria ADD COLUMN deadline_days INTEGER default 0;

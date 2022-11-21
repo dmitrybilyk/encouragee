@@ -1,0 +1,15 @@
+-- CREATE FUNCTION GET_CURR_USERID {{{
+CREATE OR REPLACE FUNCTION callrec.GET_CURR_USERID()
+  RETURNS callrec.users.id%TYPE
+  VOLATILE
+  SECURITY DEFINER
+  LANGUAGE plpgsql
+  AS '
+    BEGIN
+      RETURN callrec.GET_CURR__ID(''seq_users'');
+    END;
+  ';
+
+GRANT EXECUTE ON FUNCTION callrec.GET_CURR_USERID() TO GROUP callrecgrp;
+-- }}}
+

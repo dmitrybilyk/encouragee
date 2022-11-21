@@ -9,7 +9,7 @@ import com.zoomint.encourage.common.camel.EncourageCamelApplication;
 import com.zoomint.encourage.common.spring.BuildProperties;
 //import com.zoomint.encourage.common.spring.WebSecurityConfig;
 import com.zoomint.encourage.model.search.ClientConversationSearchConverter;
-import com.zoomint.keycloak.KeycloakClientConfiguration;
+//import com.zoomint.keycloak.KeycloakClientConfiguration;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.amqp.core.Binding;

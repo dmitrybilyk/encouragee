@@ -1,0 +1,15 @@
+-- CREATE FUNCTION GET_NEXT_CFILEID {{{
+CREATE OR REPLACE FUNCTION callrec.GET_NEXT_CFILEID()
+  RETURNS callrec.cfiles.id%TYPE
+  VOLATILE
+  SECURITY DEFINER
+  LANGUAGE plpgsql
+  AS '
+    BEGIN
+      RETURN callrec.GET_NEXT__ID(''seq_cfiles'');
+    END;
+  ';
+
+GRANT EXECUTE ON FUNCTION callrec.GET_NEXT_CFILEID() TO GROUP callrecgrp;
+-- }}}
+

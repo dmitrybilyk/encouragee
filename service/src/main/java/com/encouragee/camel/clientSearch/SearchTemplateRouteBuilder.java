@@ -12,6 +12,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -60,7 +61,7 @@ public class SearchTemplateRouteBuilder extends RouteBuilder {
 				.map(SearchTemplate::getConversationSearch)
 				.collect(toList());
 
-		boolean isProtected = repository.checkConversationMatchesAnySearch(conversationId, protectionSearches, settings.getServerTimestamp());
+		boolean isProtected = repository.checkConversationMatchesAnySearch(conversationId, protectionSearches, ZonedDateTime.now());
 		if (isProtected) {
 			throw new ProtectedConversationException();
 		}

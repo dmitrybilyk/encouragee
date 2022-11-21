@@ -1,0 +1,190 @@
+services:
+#  keycloak:
+#    ports:
+#      - '18080:8080'
+##    networks:
+##      - keycloak-network
+#    environment:
+#      - DB_DATABASE=keycloak
+#      - DB_PASSWORD=postgres
+#      - DB_USER=postgres
+#      - DB_VENDOR=postgres
+#      - DB_ADDR=zoom_postgres
+##     jdbc:postgresql://jdbc:postgresql://zoom_postgres:5432/keycloak:5432/keycloak
+#      - ENABLE_INTERNATIONALIZATION=true
+#      - JAVA_OPTS=-server
+#      - KEYCLOAK_DEFAULT_THEME=eleveo
+#      - KEYCLOAK_PASSWORD=password
+#      - KEYCLOAK_USER=admin
+#      - KEYCLOAK_VERSION=16.1.0-19.0.4
+#      - KEYCLOAK_WELCOME_THEME=eleveo
+#      - MASTER_CLIENT_DEFAULT_ROLES=manage-clients,manage-users,view-realm
+#      - MASTER_CLIENT_NAME=client-management-app
+#      - MASTER_CLIENT_SECRET=password
+#      - MESSAGE_QUEUE_HOST=rabbitmq-kc
+#      - MESSAGE_QUEUE_PASSWORD=guest
+#      - MESSAGE_QUEUE_PORT=5673
+#      - MESSAGE_QUEUE_USERNAME=guest
+#      - ROOT_LOGLEVEL=INFO
+#      - SMTP_FROM=keycloak.server@zoomint.com
+#      - SMTP_HOST=172.17.0.4
+#      - SMTP_PASSWORD=password
+#      - SMTP_PORT=1025
+#      - SMTP_USERNAME=any
+#      - X509_CA_BUNDLE=/zoom-ca-bundle.crt
+#      - ZQM_VERSION=ic_do_rici
+#      - 'true'
+#    container_name: zoom_keycloak
+#    hostname: keycloak
+#    depends_on:
+#      - rabbitmq-kc
+#      - postgres
+#    image: 'artifactory.zoomint.com/zoomint/keycloak:16.1.0-19.0.4'
+#  kcproxy:
+#    ports:
+#      - '18081:8080'
+##    networks:
+##      - keycloak-network
+#    environment:
+#      - KEYCLOAK_HOST=keycloak
+#      - KEYCLOAK_PORT=8080
+#      - KEYCLOAK_PROXY_PORT=8080
+#      - MESSAGE_QUEUE_HOST=rabbitmq-kc
+#    container_name: zoom_kc_proxy
+#    hostname: kcproxy
+#    depends_on:
+#      - rabbitmq-kc
+#      - keycloak
+#      - postgres
+#    image: 'artifactory.zoomint.com/zoomint/keycloak-api-proxy:1.18.0'
+#  rabbitmq:
+#    ports:
+#      - '15672:15672'
+#      - '5672:5672'
+##    networks:
+##      - keycloak-network
+#    environment:
+#      - RABBITMQ_DEFAULT_PASS=callrec
+#      - RABBITMQ_DEFAULT_USER=callrec
+#    container_name: RabbitMQ
+#    hostname: rabbitmq
+#    image: 'rabbitmq:management'
+#  rabbitmq-kc:
+#    ports:
+#      - '15673:15672'
+#      - '5673:5672'
+##    networks:
+##      - keycloak-network
+#    environment:
+#      - RABBITMQ_DEFAULT_PASS=guest
+#      - RABBITMQ_DEFAULT_USER=guest
+#    container_name: RabbitMQ-KC
+#    hostname: rabbitmq-kc
+#    image: 'rabbitmq:3-management'
+#  solr:
+#    ports:
+#      - '9983:9983'
+#      - '8983:8983'
+##    volumes:
+##      - solrdata:/opt/solr/server/solr
+##    networks:
+##      - keycloak-network
+#    image: 'zoomint/zoomint-solr-cloud:7.6.0.15'
+#    container_name: 'zoom_solr'
+  postgres:
+    container_name: 'test_postgres'
+    image: 'postgres:9.6'
+    ports:
+      - '5432:5432'
+#    networks:
+#      - keycloak-network
+    environment:
+      - POSTGRES_DATABASE=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata_test:/var/lib/postgresql/data
+#  conversations:
+#    ports:
+#      - 8107:8107
+#    container_name: conversations-svc
+#    hostname: conversations
+#    image: 'localhost:5000/conv:1.2.3'
+#    environment:
+#      - keycloak-client-token-provider.serverUrl=http://zoom_keycloak:8080/auth/
+#      - keycloak-client-token-provider.realm=default
+#      - keycloak-client-token-provider.master-client-secret=password
+#      - spring.rabbitmq.host=rabbitmq
+#      - enc-conversations.solr.zookeeper=zoom_solr:9983
+#      - enc-conversations.solr-configset-path=/app/config/solr-config-set/conversation
+##      - host.docker.internal
+##    networks:
+##      - keycloak-network
+#    depends_on:
+#      - rabbitmq
+#      - kcproxy
+#      - keycloak
+#      - postgres
+#  framework:
+#    ports:
+#      - 8102:8102
+#    container_name: framework-svc
+#    hostname: framework
+#    image: 'localhost:5000/framework:1.1.1'
+#    environment:
+#      - keycloak-client-token-provider.serverUrl=http://zoom_keycloak:8080/auth/
+#      - keycloak-client-token-provider.realm=default
+#      - keycloak-client-token-provider.master-client-secret=password
+#      - spring.rabbitmq.host=rabbitmq
+#      - enc-conversations.solr.zookeeper=zoom_solr:9983
+#      - enc-conversations.solr-configset-path=/app/config/solr-config-set/conversation
+##      - host.docker.internal
+#    #    networks:
+#    #      - keycloak-network
+#    depends_on:
+#      - rabbitmq
+#      - kcproxy
+#      - keycloak
+#      - postgres
+#  data:
+#    ports:
+#      - 8300:8300
+#    container_name: data-svc
+#    hostname: data
+#    image: 'localhost:5000/data:1.1.4'
+#    environment:
+#      - keycloak-client-token-provider.serverUrl=http://zoom_keycloak:8080/auth/
+#      - keycloak-client-token-provider.realm=default
+#      - keycloak-client-token-provider.master-client-secret=password
+#      - spring.rabbitmq.host=rabbitmq
+#      - enc-conversations.solr.zookeeper=zoom_solr:9983
+#      - enc-conversations.solr-configset-path=/app/config/solr-config-set/conversation
+#      - flyway.url=jdbc:postgresql://zoom_postgres:5432/encourage
+##      - host.docker.internal
+#    #    networks:
+#    #      - keycloak-network
+#    depends_on:
+#      - rabbitmq
+#      - kcproxy
+#      - keycloak
+#      - postgres
+volumes:
+  pgdata_test:
+    external: true
+#  solrdata:
+#    external: true
+#networks:
+#  keycloak-network:
+#    external: true
+
+# keycloak
+#  docker run --rm -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=password -it --hostname zoom-keycloak -p 443:443  localhost:5000/zoomint/keycloak:16.1.0-19.6.0
+
+# postgres
+#  docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DATABASE=postgres -e POSTGRES_DB=postgres -e POSTGRES_USER=postgres --rm -v pgdata:/var/lib/postgresql/data --name postgres_zoom postgres:9.6
+
+# rabbit
+#  docker run --rm -e RABBITMQ_DEFAULT_USER=callrec -e RABBITMQ_DEFAULT_PASS=callrec -it --hostname zoom-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:management
+
+# solr
+#  docker run -p 8983:8983 -p 9983:9983 --rm --name zoom_solr zoomint/zoomint-solr-cloud:7.6.0.15
