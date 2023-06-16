@@ -1,0 +1,90 @@
+version: "3"
+services:
+  solr1:
+    image: solr:8.11.1
+    container_name: solr1
+    ports:
+      - "8980:8983"
+    networks:
+      - solr
+    environment:
+      - ZK_HOST=zoo1:2180,zoo2:2181,zoo3:2182
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+#    volumes:
+#      - #Solr:/var/solr
+  solr2:
+    image: solr:8.11.1
+    container_name: solr2
+    ports:
+      - "8981:8983"
+    networks:
+      - solr
+    environment:
+      - ZK_HOST=zoo1:2180,zoo2:2181,zoo3:2182
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+#    volumes:
+#      - #Solr:/var/solr
+  solr3:
+    image: solr:8.11.1
+    container_name: solr3
+    ports:
+      - "8982:8983"
+    networks:
+      - solr
+    environment:
+      - ZK_HOST=zoo1:2180,zoo2:2181,zoo3:2182
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+#    volumes:
+#      - data:/var/solr
+  zoo1:
+    image: zookeeper:3.6.2
+    container_name: zoo1
+    restart: always
+    hostname: zoo1
+    ports:
+      - 2180:2180
+      - 7001:7000
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3880;2180 server.2=0.0.0.0:2888:3888;2180 server.3=0.0.0.0:2888:3888;2180
+    networks:
+      - solr
+  zoo2:
+    image: zookeeper:3.6.2
+    container_name: zoo2
+    restart: always
+    hostname: zoo2
+    ports:
+      - 2181:2180
+      - 7002:7000
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3880;2181 server.2=0.0.0.0:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+    networks:
+      - solr
+  zoo3:
+    image: zookeeper:3.6.2
+    container_name: zoo3
+    restart: always
+    hostname: zoo3
+    ports:
+      - 2182:2180
+      - 7003:7000
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3880;2182 server.2=0.0.0.0:2888:3888;2182 server.3=0.0.0.0:2888:3888;2182
+    networks:
+      - solr
+volumes:
+  data:
+networks:
+  solr:

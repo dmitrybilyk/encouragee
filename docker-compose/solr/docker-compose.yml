@@ -1,14 +1,14 @@
 version: "3"
 services:
   solr1:
-    build:
-      context: ..
-      dockerfile: solr/solr.Dockerfile
+    image: solr:8.11.1
     container_name: solr1
     ports:
       - "8983:8983"
     volumes:
-      - data:/var/solr
+      - ./solr-cloud/security.json:/var/security.json
+      - .:/mnt/config
+      - solr:/var/solr
     environment:
       - ZK_HOST=zoo1:2182
     depends_on:
@@ -27,4 +27,4 @@ services:
       ZOO_MY_ID: 1
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2182
 volumes:
-  data:
+  solr:
