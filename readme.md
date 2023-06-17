@@ -1,5 +1,6 @@
 
 Solr:
+https://solr.apache.org/guide/solr/latest/query-guide/common-query-parameters.html#cache-local-parameter - current progress with Ruslan
 1. /home/dmytro/dev/tools/solr-9.2.1/bin/solr start -p 8983
 2. stop solr:
    /home/dmytro/dev/tools/solr-9.2.1/bin/solr stop -all
